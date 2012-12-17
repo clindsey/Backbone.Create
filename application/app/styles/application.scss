@@ -1,0 +1,17 @@
+/**
+ * Primary Application Stylesheet
+ * 
+ * @langversion SASS (http://sass-lang.com/)
+ * 
+ * @author Christopher Pappas
+ * @since  Month 00, 2012
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+#home-view {
+  width: 1003px;
+  margin: 0 auto;
+}
