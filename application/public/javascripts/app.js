@@ -141,6 +141,8 @@ window.require.define({"Application": function(exports, require, module) {
 
       // Import views
       var GameView = require('views/GameView');
+
+      // Import router
       var ApplicationRouter = require('routers/ApplicationRouter');
 
       // Setup the canvas
@@ -275,12 +277,26 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   		height: 500,
   		background: '#000',
   		fps: 60
-  	}
+  	};
 
-  	/*
-  		 * Public interface
+  	/**
+  	 * Application manifest for external assets and asset descriptors
+  	 * @type {Array}
   	 */
+  	var _manifest = [
+
+  	];
+
+
+  	//--------------------------------------
+  	//+ PUBLIC INTERFACE
+  	//--------------------------------------
+  	
   	return {
+
+  		/**
+  		 * @type {Object}
+  		 */
   		STAGE_PROPERTIES: _stageProperties
   	}
 
@@ -580,8 +596,8 @@ window.require.define({"initialize": function(exports, require, module) {
    * 
    * @langversion JavaScript
    * 
-   * @author 
-   * @since  
+   * @author Christopher Pappas
+   * @since 12.23.12
    */
 
   var Application = require('Application');
@@ -743,10 +759,6 @@ window.require.define({"views/GameView": function(exports, require, module) {
   var View  = require('core/View');
 
   var GameView = View.extend({
-
-  	//--------------------------------------
-  	//+ PUBLIC PROPERTIES / CONSTANTS
-  	//--------------------------------------
 
   	/*
    	 * The id of the view

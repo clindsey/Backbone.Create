@@ -4,8 +4,8 @@
  * 
  * @langversion JavaScript
  * 
- * @author 
- * @since  
+ * @author Christopher Pappas
+ * @since 12.23.12
  */
 
 var Application = require('Application');

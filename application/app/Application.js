@@ -64,6 +64,8 @@ Application = {
 
     // Import views
     var GameView = require('views/GameView');
+
+    // Import router
     var ApplicationRouter = require('routers/ApplicationRouter');
 
     // Setup the canvas

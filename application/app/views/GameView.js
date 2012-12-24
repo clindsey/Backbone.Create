@@ -11,10 +11,6 @@ var View  = require('core/View');
 
 var GameView = View.extend({
 
-	//--------------------------------------
-	//+ PUBLIC PROPERTIES / CONSTANTS
-	//--------------------------------------
-
 	/*
  	 * The id of the view
  	 * @type {String}

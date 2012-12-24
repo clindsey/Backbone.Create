@@ -18,12 +18,26 @@ var GameConfig = (function() {
 		height: 500,
 		background: '#000',
 		fps: 60
-	}
+	};
 
-	/*
-		 * Public interface
+	/**
+	 * Application manifest for external assets and asset descriptors
+	 * @type {Array}
 	 */
+	var _manifest = [
+
+	];
+
+
+	//--------------------------------------
+	//+ PUBLIC INTERFACE
+	//--------------------------------------
+	
 	return {
+
+		/**
+		 * @type {Object}
+		 */
 		STAGE_PROPERTIES: _stageProperties
 	}
 
