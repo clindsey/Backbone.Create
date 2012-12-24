@@ -1,7 +1,7 @@
 Backbone.Create
 ===============
 
-A Backbone.js-based framework for CreateJS canvas projects
+A Backbone.js-based framework for CreateJS canvas projects.  Built on top of [Brunch](http://brunch.io) for assembly.  
 
 TODO:  Write docs, unit-tests and more feature-complete framework
 
