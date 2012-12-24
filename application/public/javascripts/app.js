@@ -84,6 +84,7 @@ window.require.define({"Application": function(exports, require, module) {
    * @since 12.23.12
    */
 
+  var CreateUtils = require('utils/CreateUtils')
   var GameConfig = require( 'config/GameConfig' );
 
   /**
@@ -156,22 +157,32 @@ window.require.define({"Application": function(exports, require, module) {
       c.Touch.enable( this.stage );
 
       // Setup ticker
-      c.Ticker.setFPS( GameConfig.STAGE_PROPERTIES.fps );
+      c.Ticker.setFPS( GameConfig.STAGE.fps );
       this.ticker.tick = this.__onTickerUpdate;
+
+      // Initialize the preloader
+      this._preloadJS = new c.PreloadJS();
+      this._preloadJS.onProgress = this.__onOverallProgress;
+      this._preloadJS.onFileProgress = this.__onFileProgress;
+      this._preloadJS.onFileLoad = this.__onFileLoad;
+      this._preloadJS.onError = this.__onError;
+      this._preloadJS.setMaxConnections( 5 );
 
       // Canvas container
       this.container = new c.Container();
-      this.container.width = GameConfig.STAGE_PROPERTIES.width
-      this.container.x = GameConfig.STAGE_PROPERTIES.width * .5 - this.container.width * .5;
+      this.container.width = GameConfig.STAGE.width
+      this.container.x = GameConfig.STAGE.width * .5 - this.container.width * .5;
 
       // Initialize views
       this.gameView = new GameView();
       this.applicationRouter = new ApplicationRouter();
 
-      // Initialize the preloader and load assets
-      this._preloadJS = new c.PreloadJS();
-      this._preloadJS.onComplete = this.__onLoadComplete;
-      this._preloadJS.loadManifest( GameConfig.MANIFEST );
+      // Add views to canvas
+      this.container.addChild( this.gameView.sprite );
+      this.stage.addChild( this.container );
+
+      // And load assets
+      this._preloadJS.loadManifest( _.map( GameConfig.MANIFEST, function( asset ) { return asset.src }));
     },
 
 
@@ -180,19 +191,40 @@ window.require.define({"Application": function(exports, require, module) {
     //--------------------------------------
 
     /**
-     * Handler for preload complete events
-     * 
-     */
-    __onLoadComplete: function() {
-      this.start();
-    },
-
-    /**
      * Handler for ticker update events
      *
      */
     __onTickerUpdate: function() {
       Application.stage.update();
+    },
+
+    /**
+     * Handle individual file progress events
+     * @param {[type]} event [description]
+     */
+    __onFileProgress: function( event ) {},
+
+    /**
+     * Handle individual file load successes
+     * @param {Event} event 
+     */
+    __onFileLoad: function( event ) {},
+
+    /**
+     * Handler for preload complete events
+     * 
+     */
+    __onError: function( error ) {
+      console.error( error )
+    },
+
+    /**
+     * Handle overall load progress
+     * @param {Event} event 
+     */
+    __onOverallProgress: function( event ) {
+      if( event.loaded === event.total )
+        this.start();
     },
 
 
@@ -259,13 +291,13 @@ window.require.define({"config/AppConfig": function(exports, require, module) {
   	 * Image asset base-url
   	 * @type {String}
   	 */
-  	IMAGE_URL: 'images/', 
+  	IMAGE_PATH: 'images/', 
 
   	/**
   	 * Audio asset base-url
   	 * @type {String}
   	 */
-  	AUDIO_URL: 'audio/'
+  	AUDIO_PATH: 'audio/'
 
   };
 
@@ -290,9 +322,9 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   	 * Basic stage properties
   	 * @type {Object}
   	 */
-  	var _stageProperties = {
-  		width: 1000,
-  		height: 500,
+  	var _stage = {
+  		stageWidth: 1000,
+  		stageHeight: 1000,
   		background: '#000',
   		fps: 60
   	};
@@ -302,7 +334,49 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   	 * @type {Array}
   	 */
   	var _manifest = [
-  		{}
+  		{ 
+  			id: 'mouse',
+  			src: AppConfig.IMAGE_PATH + 'spritesheet/sprite-mouse.png',
+  			spritesheet: {
+  				"frames": [
+  	        [218, 2, 23, 33, 0, 0, 0],
+  	        [191, 2, 23, 33, 0, 0, 0],
+  	        [299, 2, 23, 33, 0, 0, 0],
+  	        [606, 2, 31, 25, 0, 0, 0],
+  	        [571, 2, 31, 25, 0, 0, 0],
+  	        [536, 2, 31, 25, 0, 0, 0],
+  	        [501, 2, 31, 25, 0, 0, 0],
+  	        [466, 2, 31, 25, 0, 0, 0],
+  	        [431, 2, 31, 25, 0, 0, 0],
+  	        [137, 2, 23, 33, 0, 0, 0],
+  	        [110, 2, 23, 33, 0, 0, 0],
+  	        [272, 2, 23, 33, 0, 0, 0],
+  	        [83, 2, 23, 33, 0, 0, 0],
+  	        [164, 2, 23, 33, 0, 0, 0],
+  	        [245, 2, 23, 33, 0, 0, 0],
+  	        [361, 2, 31, 25, 0, 0, 0],
+  	        [396, 2, 31, 25, 0, 0, 0],
+  	        [326, 2, 31, 25, 0, 0, 0],
+  	        [676, 2, 31, 25, 0, 0, 0],
+  	        [711, 2, 31, 25, 0, 0, 0],
+  	        [641, 2, 31, 25, 0, 0, 0],
+  	        [56, 2, 23, 33, 0, 0, 0],
+  	        [29, 2, 23, 33, 0, 0, 0],
+  	        [2, 2, 23, 33, 0, 0, 0]
+  	    	],
+      		"animations": {
+      			"scared-down": {"frames": [21, 22, 23]}, 
+      			"all": {"frames": [23]}, 
+      			"down": {"frames": [9, 10, 11]}, 
+      			"left": {"frames": [3, 4, 5]}, 
+      			"scared-right": {"frames": [18, 19, 20]}, 
+      			"scared-left": {"frames": [15, 16, 17]}, 
+      			"up": {"frames": [0, 1, 2]}, 
+      			"right": {"frames": [6, 7, 8]}, 
+      			"scared-up": {"frames": [12, 13, 14]}
+      		}
+  			}
+  		}
   	];
 
 
@@ -315,7 +389,7 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   		/**
   		 * @type {Object}
   		 */
-  		STAGE_PROPERTIES: _stageProperties,
+  		STAGE: _stage,
 
   		/**
   		 * @type {Array}
@@ -736,7 +810,7 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   var GameConfig = require('config/GameConfig');
 
-  var Utils = (function() {
+  var CreateUtils = (function() {
 
   	/**
   	 * Set the default search key for asset queries
@@ -777,6 +851,7 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   		 * Creates a bitmap
   		 * @param  {*} value the value-pair of the asset
   		 * @param  {String} key to search under
+  		 * 
   		 * @return {c.Bitmap}  The bitmap
   		 */
   		createBitmap: function( value, lookupKey ) {
@@ -787,9 +862,23 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   		},
 
   		/**
+  		 * Returns a shape rect
+  		 * @param {Hex} color  The color of the shape
+  		 * @param {Number} width  The width of the shape
+  		 * @param {Number} height The height of the shape
+  		 * @param {Number} alpha  The alpha of the shape
+  		 * 
+  		 * @return {CreateJS.Shape}
+  		 */
+  		createRect: function( color, width, height, alpha ) {
+  			return new c.Shape( new c.Graphics().beginFill( color ).drawRect( 0, 0, width, height, alpha ));
+  		},
+
+  		/**
   		 * Creates a spritesheet and returns c.BitmapAnimation object
   		 * @param  {*} value the value-pair of the asset
   		 * @param  {String} key to search under
+  		 * 
   		 * @return {c.BitmapAnimation}  The animated spritesheet
   		 */
   		createSpriteSheet: function( value, lookupKey ) {
@@ -1002,7 +1091,10 @@ window.require.define({"views/GameView": function(exports, require, module) {
    * @since  
    */
 
-  var View  = require('core/View');
+  var View        = require('core/View');
+  var Utils 		  = require('utils/Utils');
+  var CreateUtils = require('utils/CreateUtils');
+  var GameConfig  = require('config/GameConfig');
 
   var GameView = View.extend({
 
@@ -1037,8 +1129,44 @@ window.require.define({"views/GameView": function(exports, require, module) {
   	 */
   	render: function( options ) {
   		this._super( options );
-  		
-  		return this;
+
+  		var self = this;
+  		var sprite = this.sprite;
+
+  		/**
+  		 * Local method to create and move box on stage
+  		 */
+  		function createBox() {
+  			var w = Math.random() * 200,
+  					h = w;
+
+  			var square = CreateUtils.createRect( Utils.returnRandomHexColor(), w, h, .5 );
+  	    square.x = 0;
+  	    square.y = 0;
+  	    sprite.addChild( square );
+
+  	    function moveBox( square ) {
+  	    	var scale = Math.random() * 1.5;
+
+  	    	TweenMax.to( square, 2, {
+  		      x: Math.random() * GameConfig.STAGE.stageWidth,
+  		      y: Math.random() * GameConfig.STAGE.stageHeight,
+  		      rotation: Math.random() * 360,
+  		      scaleX: scale,
+  		      scaleY: scale, 
+  		      ease: Expo.easeInOut,
+  		      overwrite: 'none',
+  		      onComplete: function() {
+  		      	moveBox( this.target );
+  		      }
+  		    });
+  	    }
+
+  	    moveBox( square );
+  		}
+
+  		for( var i = 0; i < 100; ++i ) 
+  			createBox();
   	},
 
   	/**
@@ -1047,7 +1175,7 @@ window.require.define({"views/GameView": function(exports, require, module) {
   	 */
   	dispose: function( options ) {
   		this._super( options );
-  	},
+  	}
 
   	//--------------------------------------
   	//+ PUBLIC METHODS / GETTERS / SETTERS

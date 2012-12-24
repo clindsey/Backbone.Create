@@ -4,18 +4,15 @@
  * @langversion SASS (http://sass-lang.com/)
  * 
  * @author Christopher Pappas
- * @since  Month 00, 2012
+ * @since  12.23.2012
  */
-
-$imagePath: '../images/';
-$backgroundImage: $imagePath + 'bg-repeatable.png';
 
 * {
   box-sizing: border-box;
 }
 
 body {
-	background: #223f54 url( $backgroundImage );
+	background: #333;
 	overflow: hidden;
 	user-select: none;
 	width: 100%;
@@ -24,4 +21,9 @@ body {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+}
+
+#canvas {
+	width: 1000px;
+	height: 1000px;
 }

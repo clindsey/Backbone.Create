@@ -69,15 +69,15 @@ td { vertical-align: top; }
  * @langversion SASS (http://sass-lang.com/)
  * 
  * @author Christopher Pappas
- * @since  Month 00, 2012
+ * @since  12.23.2012
  */
-@media -sass-debug-info{filename{}line{font-family:\0000313}}
+@media -sass-debug-info{filename{}line{font-family:\0000310}}
 * {
   box-sizing: border-box; }
 
-@media -sass-debug-info{filename{}line{font-family:\0000317}}
+@media -sass-debug-info{filename{}line{font-family:\0000314}}
 body {
-  background: #223f54 url("../images/bg-repeatable.png");
+  background: #333;
   overflow: hidden;
   user-select: none;
   width: 100%;
@@ -85,6 +85,11 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none; }
+
+@media -sass-debug-info{filename{}line{font-family:\0000326}}
+#canvas {
+  width: 1000px;
+  height: 1000px; }
 .ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; *line-height: 0; }
 .ir br { display: none; }
 .hidden { display: none !important; visibility: hidden; }

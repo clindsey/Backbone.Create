@@ -7,6 +7,7 @@
  * @since 12.23.12
  */
 
+var CreateUtils = require('utils/CreateUtils')
 var GameConfig = require( 'config/GameConfig' );
 
 /**
@@ -79,22 +80,32 @@ Application = {
     c.Touch.enable( this.stage );
 
     // Setup ticker
-    c.Ticker.setFPS( GameConfig.STAGE_PROPERTIES.fps );
+    c.Ticker.setFPS( GameConfig.STAGE.fps );
     this.ticker.tick = this.__onTickerUpdate;
+
+    // Initialize the preloader
+    this._preloadJS = new c.PreloadJS();
+    this._preloadJS.onProgress = this.__onOverallProgress;
+    this._preloadJS.onFileProgress = this.__onFileProgress;
+    this._preloadJS.onFileLoad = this.__onFileLoad;
+    this._preloadJS.onError = this.__onError;
+    this._preloadJS.setMaxConnections( 5 );
 
     // Canvas container
     this.container = new c.Container();
-    this.container.width = GameConfig.STAGE_PROPERTIES.width
-    this.container.x = GameConfig.STAGE_PROPERTIES.width * .5 - this.container.width * .5;
+    this.container.width = GameConfig.STAGE.width
+    this.container.x = GameConfig.STAGE.width * .5 - this.container.width * .5;
 
     // Initialize views
     this.gameView = new GameView();
     this.applicationRouter = new ApplicationRouter();
 
-    // Initialize the preloader and load assets
-    this._preloadJS = new c.PreloadJS();
-    this._preloadJS.onComplete = this.__onLoadComplete;
-    this._preloadJS.loadManifest( GameConfig.MANIFEST );
+    // Add views to canvas
+    this.container.addChild( this.gameView.sprite );
+    this.stage.addChild( this.container );
+
+    // And load assets
+    this._preloadJS.loadManifest( _.map( GameConfig.MANIFEST, function( asset ) { return asset.src }));
   },
 
 
@@ -103,19 +114,40 @@ Application = {
   //--------------------------------------
 
   /**
-   * Handler for preload complete events
-   * 
-   */
-  __onLoadComplete: function() {
-    this.start();
-  },
-
-  /**
    * Handler for ticker update events
    *
    */
   __onTickerUpdate: function() {
     Application.stage.update();
+  },
+
+  /**
+   * Handle individual file progress events
+   * @param {[type]} event [description]
+   */
+  __onFileProgress: function( event ) {},
+
+  /**
+   * Handle individual file load successes
+   * @param {Event} event 
+   */
+  __onFileLoad: function( event ) {},
+
+  /**
+   * Handler for preload complete events
+   * 
+   */
+  __onError: function( error ) {
+    console.error( error )
+  },
+
+  /**
+   * Handle overall load progress
+   * @param {Event} event 
+   */
+  __onOverallProgress: function( event ) {
+    if( event.loaded === event.total )
+      this.start();
   },
 
 

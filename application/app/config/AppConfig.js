@@ -19,13 +19,13 @@ var AppConfig = {
 	 * Image asset base-url
 	 * @type {String}
 	 */
-	IMAGE_URL: 'images/', 
+	IMAGE_PATH: 'images/', 
 
 	/**
 	 * Audio asset base-url
 	 * @type {String}
 	 */
-	AUDIO_URL: 'audio/'
+	AUDIO_PATH: 'audio/'
 
 };
 

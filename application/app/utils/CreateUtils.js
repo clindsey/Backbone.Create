@@ -7,7 +7,7 @@
 
 var GameConfig = require('config/GameConfig');
 
-var Utils = (function() {
+var CreateUtils = (function() {
 
 	/**
 	 * Set the default search key for asset queries
@@ -48,6 +48,7 @@ var Utils = (function() {
 		 * Creates a bitmap
 		 * @param  {*} value the value-pair of the asset
 		 * @param  {String} key to search under
+		 * 
 		 * @return {c.Bitmap}  The bitmap
 		 */
 		createBitmap: function( value, lookupKey ) {
@@ -58,9 +59,23 @@ var Utils = (function() {
 		},
 
 		/**
+		 * Returns a shape rect
+		 * @param {Hex} color  The color of the shape
+		 * @param {Number} width  The width of the shape
+		 * @param {Number} height The height of the shape
+		 * @param {Number} alpha  The alpha of the shape
+		 * 
+		 * @return {CreateJS.Shape}
+		 */
+		createRect: function( color, width, height, alpha ) {
+			return new c.Shape( new c.Graphics().beginFill( color ).drawRect( 0, 0, width, height, alpha ));
+		},
+
+		/**
 		 * Creates a spritesheet and returns c.BitmapAnimation object
 		 * @param  {*} value the value-pair of the asset
 		 * @param  {String} key to search under
+		 * 
 		 * @return {c.BitmapAnimation}  The animated spritesheet
 		 */
 		createSpriteSheet: function( value, lookupKey ) {
