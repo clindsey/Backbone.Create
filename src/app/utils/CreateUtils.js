@@ -24,8 +24,8 @@ var CreateUtils = (function() {
 
 		/**
 		 * Animates a spritesheet once and then returns to old position
-		 * @param  {c.BitmapAnimation} spritesheet
-		 * @param  {String} frameLabel the frame label
+		 * @param	{c.BitmapAnimation} spritesheet
+		 * @param	{String} frameLabel the frame label
 		 */
 		animateOnce: function( spritesheet, frameLabel ) {
 			spritesheet.onAnimationEnd = function() { this.gotoAndStop( frameLabel ) };
@@ -34,8 +34,8 @@ var CreateUtils = (function() {
 
 		/**
 		 * Moves all frame reg-points to the center.
-		 * USE WITH CAUTION:  Adjusting the internals invalidates pixel-snapping
-		 * @param  {BitmapAnimation} bitmapAnimation
+		 * USE WITH CAUTION:	Adjusting the internals invalidates pixel-snapping
+		 * @param	{BitmapAnimation} bitmapAnimation
 		 */
 		centerSpriteSheetRegPoint: function( bitmapAnimation ) {
 			_.each( bitmapAnimation.spriteSheet._frames, function( frame ) {
@@ -46,13 +46,13 @@ var CreateUtils = (function() {
 
 		/**
 		 * Creates a bitmap
-		 * @param  {*} value the value-pair of the asset
-		 * @param  {String} key to search under
-		 * 
-		 * @return {c.Bitmap}  The bitmap
+		 * @param	{*} value the value-pair of the asset
+		 * @param	{String} key to search under
+		 *
+		 * @return {c.Bitmap}	The bitmap
 		 */
 		createBitmap: function( value, lookupKey ) {
-			if( _.isUndefined( lookupKey )) 
+			if( _.isUndefined( lookupKey ))
 				lookupKey = DEFAULT_KEY;
 
 			return new c.Bitmap( CreateUtils.returnAssetImage( value, lookupKey ));
@@ -60,11 +60,11 @@ var CreateUtils = (function() {
 
 		/**
 		 * Returns a shape rect
-		 * @param {Hex} color  The color of the shape
-		 * @param {Number} width  The width of the shape
+		 * @param {Hex} color	The color of the shape
+		 * @param {Number} width	The width of the shape
 		 * @param {Number} height The height of the shape
-		 * @param {Number} alpha  The alpha of the shape
-		 * 
+		 * @param {Number} alpha	The alpha of the shape
+		 *
 		 * @return {CreateJS.Shape}
 		 */
 		createRect: function( color, width, height, alpha ) {
@@ -73,13 +73,13 @@ var CreateUtils = (function() {
 
 		/**
 		 * Creates a spritesheet and returns c.BitmapAnimation object
-		 * @param  {*} value the value-pair of the asset
-		 * @param  {String} key to search under
-		 * 
-		 * @return {c.BitmapAnimation}  The animated spritesheet
+		 * @param	{*} value the value-pair of the asset
+		 * @param	{String} key to search under
+		 *
+		 * @return {c.BitmapAnimation}	The animated spritesheet
 		 */
 		createSpriteSheet: function( value, lookupKey ) {
-			if( _.isUndefined( lookupKey )) 
+			if( _.isUndefined( lookupKey ))
 				lookupKey = DEFAULT_KEY;
 
 			return new c.BitmapAnimation( new c.SpriteSheet( CreateUtils.returnAssetSpriteSheet( value, lookupKey )));
@@ -87,9 +87,9 @@ var CreateUtils = (function() {
 
 		/**
 		 * Creates a hit area for DisplayObjects
-		 * @param  {DisplayObject} parent
-		 * @param  {Number} width
-		 * @param  {Number} height
+		 * @param	{DisplayObject} parent
+		 * @param	{Number} width
+		 * @param	{Number} height
 		 */
 		createHitArea: function( parent, width, height ) {
 			width = width || 0;
@@ -100,11 +100,11 @@ var CreateUtils = (function() {
 
 		/**
 		 * Util for dragging display objects to aproximate positioning
-		 * @param  {Array} objArr An array of display objects to drag
+		 * @param	{Array} objArr An array of display objects to drag
 		 */
 		dragObject: function( objArr ) {
 			_.each( objArr, function( displayObject ) {
-				
+
 				if( displayObject instanceof c.BitmapAnimation ) {
 					name = displayObject.spriteSheet._images[0].attributes[0].nodeValue;
 				}
@@ -133,11 +133,11 @@ var CreateUtils = (function() {
 
 		/**
 		 * Returns a game asset
-		 * @param  {String} name the asset name
-		 * @return {Object}	  the asset
+		 * @param	{String} name the asset name
+		 * @return {Object}		the asset
 		 */
 		returnAsset: function( value, lookupKey ) {
-			if( _.isUndefined( lookupKey )) 
+			if( _.isUndefined( lookupKey ))
 				lookupKey = DEFAULT_KEY;
 
 			var len = GameConfig.MANIFEST.length;
@@ -149,14 +149,14 @@ var CreateUtils = (function() {
 					}
 				}
 			};
-			
-			return false; 
+
+			return false;
 		},
 
 		/**
 		 * Returns an image url
-		 * @param  {String} value the asset value-pair
-		 * @return {String}	  the asset url
+		 * @param	{String} value the asset value-pair
+		 * @return {String}		the asset url
 		 */
 		returnAssetImage: function( value, lookupKey ) {
 			var len = GameConfig.MANIFEST.length;
@@ -169,13 +169,13 @@ var CreateUtils = (function() {
 				}
 			};
 
-			return false; 
+			return false;
 		},
 
 		/**
 		 * Returns a spritesheet object
-		 * @param  {String} value the asset value
-		 * @return {Object}	  the asset spritesheet
+		 * @param	{String} value the asset value
+		 * @return {Object}		the asset spritesheet
 		 */
 		returnAssetSpriteSheet: function( value, lookupKey ) {
 			var len = GameConfig.MANIFEST.length;
@@ -188,7 +188,7 @@ var CreateUtils = (function() {
 				}
 			};
 
-			return false; 
+			return false;
 		}
 	}
 

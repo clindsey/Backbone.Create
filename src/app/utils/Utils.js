@@ -32,7 +32,7 @@ var Utils = {
 
 	/**
 	 * Rotates a 2-Dimensional array to the right
-	 * @param  {Array} array
+	 * @param	{Array} array
 	 */
 	rotateArrayRight: function( array ) {
 		var transformedArray = new Array();
@@ -54,9 +54,9 @@ var Utils = {
 
 	/**
 	 * Rotates a 2-Dimensional array to the left
-	 * @param  {Array} array
+	 * @param	{Array} array
 	 */
-	rotateArrayLeft: function( array )  {
+	rotateArrayLeft: function( array )	{
 		var transformedArray = new Array();
 		var aLen = array[0].length;
 		var row = -1;

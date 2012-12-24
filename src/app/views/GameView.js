@@ -1,16 +1,16 @@
 /**
  * View Description
- * 
+ *
  * @langversion JavaScript
- * 
- * @author 
- * @since  
+ *
+ * @author
+ * @since
  */
 
-var View        = require('core/View');
-var Utils 		  = require('utils/Utils');
+var View				= require('core/View');
+var Utils 			= require('utils/Utils');
 var CreateUtils = require('utils/CreateUtils');
-var GameConfig  = require('config/GameConfig');
+var GameConfig	= require('config/GameConfig');
 
 var GameView = View.extend({
 
@@ -57,37 +57,37 @@ var GameView = View.extend({
 					h = w;
 
 			var square = CreateUtils.createRect( Utils.returnRandomHexColor(), w, h, .5 );
-	    square.x = 0;
-	    square.y = 0;
-	    sprite.addChild( square );
+			square.x = 0;
+			square.y = 0;
+			sprite.addChild( square );
 
-	    function moveBox( square ) {
-	    	var scale = Math.random() * 1.5;
+			function moveBox( square ) {
+				var scale = Math.random() * 1.5;
 
-	    	TweenMax.to( square, 2, {
-		      x: Math.random() * GameConfig.STAGE.stageWidth,
-		      y: Math.random() * GameConfig.STAGE.stageHeight,
-		      rotation: Math.random() * 360,
-		      scaleX: scale,
-		      scaleY: scale, 
-		      ease: Expo.easeInOut,
-		      overwrite: 'none',
-		      onComplete: function() {
-		      	moveBox( this.target );
-		      }
-		    });
-	    }
+				TweenMax.to( square, 2, {
+					x: Math.random() * GameConfig.STAGE.stageWidth,
+					y: Math.random() * GameConfig.STAGE.stageHeight,
+					rotation: Math.random() * 360,
+					scaleX: scale,
+					scaleY: scale,
+					ease: Expo.easeInOut,
+					overwrite: 'none',
+					onComplete: function() {
+						moveBox( this.target );
+					}
+				});
+			}
 
-	    moveBox( square );
+			moveBox( square );
 		}
 
-		for( var i = 0; i < 100; ++i ) 
+		for( var i = 0; i < 100; ++i )
 			createBox();
 	},
 
 	/**
 	 * Disposes of the view
-	 * 
+	 *
 	 */
 	dispose: function( options ) {
 		this._super( options );
@@ -108,4 +108,3 @@ var GameView = View.extend({
 });
 
 module.exports = GameView;
-

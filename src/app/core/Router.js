@@ -1,22 +1,22 @@
 /**
  * Backbone Primary Router
- * 
+ *
  * @langversion JavaScript
- * 
- * @author 
- * @since  
+ *
+ * @author
+ * @since
  */
 
 var Router = Backbone.Router.extend({
 
-	//--------------------------------------
+  //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
   /**
    * Initializes the Base router
-   * @param  {Object} options 
-   * 
+   * @param {Object} options
+   *
    */
   initialize: function( options ) {
     this._super( options );

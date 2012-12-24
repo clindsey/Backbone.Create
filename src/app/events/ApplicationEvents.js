@@ -1,14 +1,14 @@
 /**
  * Application Events
- * 
+ *
  * @langversion JavaScript
- * 
- * @author 
- * @since  
+ *
+ * @author
+ * @since
  */
 
 var ApplicationEvents = {
-	
+
 	/**
 	 * Dispatched when view animation completes
 	 * @type {String}
@@ -28,7 +28,7 @@ var ApplicationEvents = {
 	APPLICATION_INITIALIZED: 'onApplicationInitialized',
 
 	/**
-	 * PubSub.  Dispatched when application requests a view cleanup
+	 * PubSub.	Dispatched when application requests a view cleanup
 	 * @type {String}
 	 */
 	DISPOSE_VIEWS: 'views:dispose'

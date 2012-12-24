@@ -1,10 +1,10 @@
 /**
  * Base Class for all Backbone Collections
- * 
+ *
  * @langversion JavaScript
- * 
- * @author 
- * @since  
+ *
+ * @author
+ * @since
  */
 
 var Collection = Backbone.Collection.extend({
@@ -16,7 +16,7 @@ var Collection = Backbone.Collection.extend({
 	//--------------------------------------
 	//+ INHERITED / OVERRIDES
 	//--------------------------------------
-	
+
 	//--------------------------------------
 	//+ PUBLIC METHODS / GETTERS / SETTERS
 	//--------------------------------------

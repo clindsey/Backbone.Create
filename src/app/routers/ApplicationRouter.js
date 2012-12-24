@@ -1,10 +1,10 @@
 /**
  * Backbone Primary Router
- * 
+ *
  * @langversion JavaScript
- * 
- * @author 
- * @since  
+ *
+ * @author
+ * @since
  */
 
 var Router = require('core/Router');
@@ -13,28 +13,28 @@ var Application = require('Application');
 var ApplicationRouter = Router.extend({
 
   //--------------------------------------
-	//+ Routes
-	//--------------------------------------
-	
+  //+ Routes
+  //--------------------------------------
+
   /**
    * A hash of application routes
    * @type {Object}
    */
-	routes: {
+  routes: {
     '': 'gameViewRoute'
-	},
-  
+  },
 
-	//--------------------------------------
-	//+ Route Handlers
-	//--------------------------------------
+
+  //--------------------------------------
+  //+ Route Handlers
+  //--------------------------------------
 
   /**
    * Handler for game route
    */
-	gameViewRoute: function() {
+  gameViewRoute: function() {
     Application.gameView.render();
-	},
+  },
 
 
   //--------------------------------------
@@ -44,7 +44,7 @@ var ApplicationRouter = Router.extend({
   /**
    * Generic method which publishes cleanup event to all registered views
    * @param {Object} options  an options has consisting of
-   *   - animated : {Boolean}  should we animate out the view?
+   *   - animated : {Boolean} should we animate out the view?
    */
   __cleanupViews: function( options ) {
     Backbone.Mediator.pub( ApplicationEvent.DISPOSE_VIEWS, options );

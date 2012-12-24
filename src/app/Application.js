@@ -1,8 +1,8 @@
 /**
  * Application Bootstrapper
- * 
+ *
  * @langversion JavaScript
- * 
+ *
  * @author Christopher Pappas
  * @since 12.23.12
  */
@@ -129,13 +129,13 @@ Application = {
 
   /**
    * Handle individual file load successes
-   * @param {Event} event 
+   * @param {Event} event
    */
   __onFileLoad: function( event ) {},
 
   /**
    * Handler for preload complete events
-   * 
+   *
    */
   __onError: function( error ) {
     console.error( error )
@@ -143,7 +143,7 @@ Application = {
 
   /**
    * Handle overall load progress
-   * @param {Event} event 
+   * @param {Event} event
    */
   __onOverallProgress: function( event ) {
     if( event.loaded === event.total )

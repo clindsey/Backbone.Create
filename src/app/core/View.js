@@ -1,9 +1,9 @@
 /**
  * View Base Class
- * 
+ *
  * @langversion JavaScript
- * 
- * @author Christopher Pappas 
+ *
+ * @author Christopher Pappas
  * @since 12.23.12
  */
 
@@ -43,7 +43,7 @@ var View = Backbone.View.extend({
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
-  
+
   /*
    * @private
    */
@@ -59,37 +59,37 @@ var View = Backbone.View.extend({
    */
   render: function( data ) {
     data = data || this.model || {};
-    
-    if( data instanceof Model ) 
+
+    if( data instanceof Model )
       data = this.model.attributes;
-    
+
     this.delegateEvents();
     this.addEventListeners();
     this.rendered = true;
-    
+
     return this;
   },
 
   /**
    * Disposes of the view
-   * @param  {Object} options
+   * @param {Object} options
    *  - animated : {Boolean}
    *  - currView : {Object}
    */
   dispose: function( options ) {
     options = options || {};
 
-    if( options.currView === this || !this.rendered ) 
+    if( options.currView === this || !this.rendered )
       return;
-    
+
     this.rendered = false;
     this.undelegateEvents();
     this.removeEventListeners();
-    
-    if( this.model && this.model.off ) 
+
+    if( this.model && this.model.off )
       this.model.off( null, null, this );
 
-    if( this.collection && this.collection.off ) 
+    if( this.collection && this.collection.off )
       this.collection.off( null, null, this );
 
     var self = this;
@@ -99,20 +99,20 @@ var View = Backbone.View.extend({
 
       // Check if animated
       if( !_.isUndefined( options.animated ) && options.animated )
-        
+
         // Animate view out and then remove children
         this.animateOut(function() {
           if( !_.isNull( this.sprite ))
             self.sprite.removeAllChildren();
-          else 
+          else
             self.spritesheet.removeAllChildren();
         });
 
       // or just remove children
-      else 
+      else
         if( !_.isNull( this.sprite ))
           self.sprite.removeAllChildren();
-        else 
+        else
           self.spritesheet.removeAllChildren();
   },
 

@@ -1,10 +1,10 @@
 /**
  * Base Class for all Backbone Models
- * 
+ *
  * @langversion JavaScript
- * 
- * @author 
- * @since  
+ *
+ * @author
+ * @since
  */
 
 var Model = Backbone.Model.extend({
@@ -16,7 +16,7 @@ var Model = Backbone.Model.extend({
 	//--------------------------------------
 	//+ INHERITED / OVERRIDES
 	//--------------------------------------
-	
+
 	//--------------------------------------
 	//+ PUBLIC METHODS / GETTERS / SETTERS
 	//--------------------------------------
@@ -28,7 +28,7 @@ var Model = Backbone.Model.extend({
 	//--------------------------------------
 	//+ PRIVATE AND PROTECTED METHODS
 	//--------------------------------------
-  
+
 });
 
 module.exports = Model;

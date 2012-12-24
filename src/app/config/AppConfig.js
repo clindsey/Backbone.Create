@@ -1,14 +1,14 @@
 /**
  * Application Configuration
- * 
+ *
  * @langversion JavaScript
- * 
- * @author 
- * @since  
+ *
+ * @author
+ * @since
  */
 
 var AppConfig = {
-		
+
 	/**
 	 * The application base-url
 	 * @type {String}
@@ -19,7 +19,7 @@ var AppConfig = {
 	 * Image asset base-url
 	 * @type {String}
 	 */
-	IMAGE_PATH: 'images/', 
+	IMAGE_PATH: 'images/',
 
 	/**
 	 * Audio asset base-url

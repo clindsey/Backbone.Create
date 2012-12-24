@@ -77,9 +77,9 @@
 window.require.define({"Application": function(exports, require, module) {
   /**
    * Application Bootstrapper
-   * 
+   *
    * @langversion JavaScript
-   * 
+   *
    * @author Christopher Pappas
    * @since 12.23.12
    */
@@ -206,13 +206,13 @@ window.require.define({"Application": function(exports, require, module) {
 
     /**
      * Handle individual file load successes
-     * @param {Event} event 
+     * @param {Event} event
      */
     __onFileLoad: function( event ) {},
 
     /**
      * Handler for preload complete events
-     * 
+     *
      */
     __onError: function( error ) {
       console.error( error )
@@ -220,7 +220,7 @@ window.require.define({"Application": function(exports, require, module) {
 
     /**
      * Handle overall load progress
-     * @param {Event} event 
+     * @param {Event} event
      */
     __onOverallProgress: function( event ) {
       if( event.loaded === event.total )
@@ -266,21 +266,20 @@ window.require.define({"Application": function(exports, require, module) {
   }
 
   module.exports = Application;
-  
 }});
 
 window.require.define({"config/AppConfig": function(exports, require, module) {
   /**
    * Application Configuration
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   *
+   * @author
+   * @since
    */
 
   var AppConfig = {
-  		
+
   	/**
   	 * The application base-url
   	 * @type {String}
@@ -291,7 +290,7 @@ window.require.define({"config/AppConfig": function(exports, require, module) {
   	 * Image asset base-url
   	 * @type {String}
   	 */
-  	IMAGE_PATH: 'images/', 
+  	IMAGE_PATH: 'images/',
 
   	/**
   	 * Audio asset base-url
@@ -307,11 +306,11 @@ window.require.define({"config/AppConfig": function(exports, require, module) {
 window.require.define({"config/GameConfig": function(exports, require, module) {
   /**
    * Game Configuration
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   *
+   * @author
+   * @since
    */
 
   var AppConfig = require('config/AppConfig');
@@ -334,47 +333,47 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   	 * @type {Array}
   	 */
   	var _manifest = [
-  		{ 
+  		{
   			id: 'mouse',
   			src: AppConfig.IMAGE_PATH + 'spritesheet/sprite-mouse.png',
   			spritesheet: {
   				"frames": [
-  	        [218, 2, 23, 33, 0, 0, 0],
-  	        [191, 2, 23, 33, 0, 0, 0],
-  	        [299, 2, 23, 33, 0, 0, 0],
-  	        [606, 2, 31, 25, 0, 0, 0],
-  	        [571, 2, 31, 25, 0, 0, 0],
-  	        [536, 2, 31, 25, 0, 0, 0],
-  	        [501, 2, 31, 25, 0, 0, 0],
-  	        [466, 2, 31, 25, 0, 0, 0],
-  	        [431, 2, 31, 25, 0, 0, 0],
-  	        [137, 2, 23, 33, 0, 0, 0],
-  	        [110, 2, 23, 33, 0, 0, 0],
-  	        [272, 2, 23, 33, 0, 0, 0],
-  	        [83, 2, 23, 33, 0, 0, 0],
-  	        [164, 2, 23, 33, 0, 0, 0],
-  	        [245, 2, 23, 33, 0, 0, 0],
-  	        [361, 2, 31, 25, 0, 0, 0],
-  	        [396, 2, 31, 25, 0, 0, 0],
-  	        [326, 2, 31, 25, 0, 0, 0],
-  	        [676, 2, 31, 25, 0, 0, 0],
-  	        [711, 2, 31, 25, 0, 0, 0],
-  	        [641, 2, 31, 25, 0, 0, 0],
-  	        [56, 2, 23, 33, 0, 0, 0],
-  	        [29, 2, 23, 33, 0, 0, 0],
-  	        [2, 2, 23, 33, 0, 0, 0]
-  	    	],
-      		"animations": {
-      			"scared-down": {"frames": [21, 22, 23]}, 
-      			"all": {"frames": [23]}, 
-      			"down": {"frames": [9, 10, 11]}, 
-      			"left": {"frames": [3, 4, 5]}, 
-      			"scared-right": {"frames": [18, 19, 20]}, 
-      			"scared-left": {"frames": [15, 16, 17]}, 
-      			"up": {"frames": [0, 1, 2]}, 
-      			"right": {"frames": [6, 7, 8]}, 
-      			"scared-up": {"frames": [12, 13, 14]}
-      		}
+  					[218, 2, 23, 33, 0, 0, 0],
+  					[191, 2, 23, 33, 0, 0, 0],
+  					[299, 2, 23, 33, 0, 0, 0],
+  					[606, 2, 31, 25, 0, 0, 0],
+  					[571, 2, 31, 25, 0, 0, 0],
+  					[536, 2, 31, 25, 0, 0, 0],
+  					[501, 2, 31, 25, 0, 0, 0],
+  					[466, 2, 31, 25, 0, 0, 0],
+  					[431, 2, 31, 25, 0, 0, 0],
+  					[137, 2, 23, 33, 0, 0, 0],
+  					[110, 2, 23, 33, 0, 0, 0],
+  					[272, 2, 23, 33, 0, 0, 0],
+  					[83, 2, 23, 33, 0, 0, 0],
+  					[164, 2, 23, 33, 0, 0, 0],
+  					[245, 2, 23, 33, 0, 0, 0],
+  					[361, 2, 31, 25, 0, 0, 0],
+  					[396, 2, 31, 25, 0, 0, 0],
+  					[326, 2, 31, 25, 0, 0, 0],
+  					[676, 2, 31, 25, 0, 0, 0],
+  					[711, 2, 31, 25, 0, 0, 0],
+  					[641, 2, 31, 25, 0, 0, 0],
+  					[56, 2, 23, 33, 0, 0, 0],
+  					[29, 2, 23, 33, 0, 0, 0],
+  					[2, 2, 23, 33, 0, 0, 0]
+  				],
+  				"animations": {
+  					"scared-down": {"frames": [21, 22, 23]},
+  					"all": {"frames": [23]},
+  					"down": {"frames": [9, 10, 11]},
+  					"left": {"frames": [3, 4, 5]},
+  					"scared-right": {"frames": [18, 19, 20]},
+  					"scared-left": {"frames": [15, 16, 17]},
+  					"up": {"frames": [0, 1, 2]},
+  					"right": {"frames": [6, 7, 8]},
+  					"scared-up": {"frames": [12, 13, 14]}
+  				}
   			}
   		}
   	];
@@ -383,7 +382,7 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   	//--------------------------------------
   	//+ PUBLIC INTERFACE
   	//--------------------------------------
-  	
+
   	return {
 
   		/**
@@ -406,11 +405,11 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
 window.require.define({"core/Collection": function(exports, require, module) {
   /**
    * Base Class for all Backbone Collections
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   *
+   * @author
+   * @since
    */
 
   var Collection = Backbone.Collection.extend({
@@ -422,7 +421,7 @@ window.require.define({"core/Collection": function(exports, require, module) {
   	//--------------------------------------
   	//+ INHERITED / OVERRIDES
   	//--------------------------------------
-  	
+
   	//--------------------------------------
   	//+ PUBLIC METHODS / GETTERS / SETTERS
   	//--------------------------------------
@@ -443,11 +442,11 @@ window.require.define({"core/Collection": function(exports, require, module) {
 window.require.define({"core/Model": function(exports, require, module) {
   /**
    * Base Class for all Backbone Models
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   *
+   * @author
+   * @since
    */
 
   var Model = Backbone.Model.extend({
@@ -459,7 +458,7 @@ window.require.define({"core/Model": function(exports, require, module) {
   	//--------------------------------------
   	//+ INHERITED / OVERRIDES
   	//--------------------------------------
-  	
+
   	//--------------------------------------
   	//+ PUBLIC METHODS / GETTERS / SETTERS
   	//--------------------------------------
@@ -471,33 +470,32 @@ window.require.define({"core/Model": function(exports, require, module) {
   	//--------------------------------------
   	//+ PRIVATE AND PROTECTED METHODS
   	//--------------------------------------
-    
+
   });
 
   module.exports = Model;
-  
 }});
 
 window.require.define({"core/Router": function(exports, require, module) {
   /**
    * Backbone Primary Router
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   *
+   * @author
+   * @since
    */
 
   var Router = Backbone.Router.extend({
 
-  	//--------------------------------------
+    //--------------------------------------
     //+ INHERITED / OVERRIDES
     //--------------------------------------
 
     /**
      * Initializes the Base router
-     * @param  {Object} options 
-     * 
+     * @param {Object} options
+     *
      */
     initialize: function( options ) {
       this._super( options );
@@ -511,10 +509,10 @@ window.require.define({"core/Router": function(exports, require, module) {
 window.require.define({"core/View": function(exports, require, module) {
   /**
    * View Base Class
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author Christopher Pappas 
+   *
+   * @author Christopher Pappas
    * @since 12.23.12
    */
 
@@ -554,7 +552,7 @@ window.require.define({"core/View": function(exports, require, module) {
     //--------------------------------------
     //+ INHERITED / OVERRIDES
     //--------------------------------------
-    
+
     /*
      * @private
      */
@@ -570,37 +568,37 @@ window.require.define({"core/View": function(exports, require, module) {
      */
     render: function( data ) {
       data = data || this.model || {};
-      
-      if( data instanceof Model ) 
+
+      if( data instanceof Model )
         data = this.model.attributes;
-      
+
       this.delegateEvents();
       this.addEventListeners();
       this.rendered = true;
-      
+
       return this;
     },
 
     /**
      * Disposes of the view
-     * @param  {Object} options
+     * @param {Object} options
      *  - animated : {Boolean}
      *  - currView : {Object}
      */
     dispose: function( options ) {
       options = options || {};
 
-      if( options.currView === this || !this.rendered ) 
+      if( options.currView === this || !this.rendered )
         return;
-      
+
       this.rendered = false;
       this.undelegateEvents();
       this.removeEventListeners();
-      
-      if( this.model && this.model.off ) 
+
+      if( this.model && this.model.off )
         this.model.off( null, null, this );
 
-      if( this.collection && this.collection.off ) 
+      if( this.collection && this.collection.off )
         this.collection.off( null, null, this );
 
       var self = this;
@@ -610,20 +608,20 @@ window.require.define({"core/View": function(exports, require, module) {
 
         // Check if animated
         if( !_.isUndefined( options.animated ) && options.animated )
-          
+
           // Animate view out and then remove children
           this.animateOut(function() {
             if( !_.isNull( this.sprite ))
               self.sprite.removeAllChildren();
-            else 
+            else
               self.spritesheet.removeAllChildren();
           });
 
         // or just remove children
-        else 
+        else
           if( !_.isNull( this.sprite ))
             self.sprite.removeAllChildren();
-          else 
+          else
             self.spritesheet.removeAllChildren();
     },
 
@@ -674,21 +672,20 @@ window.require.define({"core/View": function(exports, require, module) {
   });
 
   module.exports = View;
-  
 }});
 
 window.require.define({"events/ApplicationEvents": function(exports, require, module) {
   /**
    * Application Events
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   *
+   * @author
+   * @since
    */
 
   var ApplicationEvents = {
-  	
+
   	/**
   	 * Dispatched when view animation completes
   	 * @type {String}
@@ -708,7 +705,7 @@ window.require.define({"events/ApplicationEvents": function(exports, require, mo
   	APPLICATION_INITIALIZED: 'onApplicationInitialized',
 
   	/**
-  	 * PubSub.  Dispatched when application requests a view cleanup
+  	 * PubSub.	Dispatched when application requests a view cleanup
   	 * @type {String}
   	 */
   	DISPOSE_VIEWS: 'views:dispose'
@@ -721,9 +718,9 @@ window.require.define({"initialize": function(exports, require, module) {
   
   /**
    * Application Initializer
-   * 
+   *
    * @langversion JavaScript
-   * 
+   *
    * @author Christopher Pappas
    * @since 12.23.12
    */
@@ -732,23 +729,22 @@ window.require.define({"initialize": function(exports, require, module) {
 
   $(function() {
 
-    // Initialize Application
-    Application.initialize();
+  	// Initialize Application
+  	Application.initialize();
 
-    // Start Backbone router
-    Backbone.history.start();
+  	// Start Backbone router
+  	Backbone.history.start();
   });
-  
 }});
 
 window.require.define({"routers/ApplicationRouter": function(exports, require, module) {
   /**
    * Backbone Primary Router
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   *
+   * @author
+   * @since
    */
 
   var Router = require('core/Router');
@@ -757,28 +753,28 @@ window.require.define({"routers/ApplicationRouter": function(exports, require, m
   var ApplicationRouter = Router.extend({
 
     //--------------------------------------
-  	//+ Routes
-  	//--------------------------------------
-  	
+    //+ Routes
+    //--------------------------------------
+
     /**
      * A hash of application routes
      * @type {Object}
      */
-  	routes: {
+    routes: {
       '': 'gameViewRoute'
-  	},
-    
+    },
 
-  	//--------------------------------------
-  	//+ Route Handlers
-  	//--------------------------------------
+
+    //--------------------------------------
+    //+ Route Handlers
+    //--------------------------------------
 
     /**
      * Handler for game route
      */
-  	gameViewRoute: function() {
+    gameViewRoute: function() {
       Application.gameView.render();
-  	},
+    },
 
 
     //--------------------------------------
@@ -788,7 +784,7 @@ window.require.define({"routers/ApplicationRouter": function(exports, require, m
     /**
      * Generic method which publishes cleanup event to all registered views
      * @param {Object} options  an options has consisting of
-     *   - animated : {Boolean}  should we animate out the view?
+     *   - animated : {Boolean} should we animate out the view?
      */
     __cleanupViews: function( options ) {
       Backbone.Mediator.pub( ApplicationEvent.DISPOSE_VIEWS, options );
@@ -827,8 +823,8 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Animates a spritesheet once and then returns to old position
-  		 * @param  {c.BitmapAnimation} spritesheet
-  		 * @param  {String} frameLabel the frame label
+  		 * @param	{c.BitmapAnimation} spritesheet
+  		 * @param	{String} frameLabel the frame label
   		 */
   		animateOnce: function( spritesheet, frameLabel ) {
   			spritesheet.onAnimationEnd = function() { this.gotoAndStop( frameLabel ) };
@@ -837,8 +833,8 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Moves all frame reg-points to the center.
-  		 * USE WITH CAUTION:  Adjusting the internals invalidates pixel-snapping
-  		 * @param  {BitmapAnimation} bitmapAnimation
+  		 * USE WITH CAUTION:	Adjusting the internals invalidates pixel-snapping
+  		 * @param	{BitmapAnimation} bitmapAnimation
   		 */
   		centerSpriteSheetRegPoint: function( bitmapAnimation ) {
   			_.each( bitmapAnimation.spriteSheet._frames, function( frame ) {
@@ -849,13 +845,13 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Creates a bitmap
-  		 * @param  {*} value the value-pair of the asset
-  		 * @param  {String} key to search under
-  		 * 
-  		 * @return {c.Bitmap}  The bitmap
+  		 * @param	{*} value the value-pair of the asset
+  		 * @param	{String} key to search under
+  		 *
+  		 * @return {c.Bitmap}	The bitmap
   		 */
   		createBitmap: function( value, lookupKey ) {
-  			if( _.isUndefined( lookupKey )) 
+  			if( _.isUndefined( lookupKey ))
   				lookupKey = DEFAULT_KEY;
 
   			return new c.Bitmap( CreateUtils.returnAssetImage( value, lookupKey ));
@@ -863,11 +859,11 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Returns a shape rect
-  		 * @param {Hex} color  The color of the shape
-  		 * @param {Number} width  The width of the shape
+  		 * @param {Hex} color	The color of the shape
+  		 * @param {Number} width	The width of the shape
   		 * @param {Number} height The height of the shape
-  		 * @param {Number} alpha  The alpha of the shape
-  		 * 
+  		 * @param {Number} alpha	The alpha of the shape
+  		 *
   		 * @return {CreateJS.Shape}
   		 */
   		createRect: function( color, width, height, alpha ) {
@@ -876,13 +872,13 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Creates a spritesheet and returns c.BitmapAnimation object
-  		 * @param  {*} value the value-pair of the asset
-  		 * @param  {String} key to search under
-  		 * 
-  		 * @return {c.BitmapAnimation}  The animated spritesheet
+  		 * @param	{*} value the value-pair of the asset
+  		 * @param	{String} key to search under
+  		 *
+  		 * @return {c.BitmapAnimation}	The animated spritesheet
   		 */
   		createSpriteSheet: function( value, lookupKey ) {
-  			if( _.isUndefined( lookupKey )) 
+  			if( _.isUndefined( lookupKey ))
   				lookupKey = DEFAULT_KEY;
 
   			return new c.BitmapAnimation( new c.SpriteSheet( CreateUtils.returnAssetSpriteSheet( value, lookupKey )));
@@ -890,9 +886,9 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Creates a hit area for DisplayObjects
-  		 * @param  {DisplayObject} parent
-  		 * @param  {Number} width
-  		 * @param  {Number} height
+  		 * @param	{DisplayObject} parent
+  		 * @param	{Number} width
+  		 * @param	{Number} height
   		 */
   		createHitArea: function( parent, width, height ) {
   			width = width || 0;
@@ -903,11 +899,11 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Util for dragging display objects to aproximate positioning
-  		 * @param  {Array} objArr An array of display objects to drag
+  		 * @param	{Array} objArr An array of display objects to drag
   		 */
   		dragObject: function( objArr ) {
   			_.each( objArr, function( displayObject ) {
-  				
+
   				if( displayObject instanceof c.BitmapAnimation ) {
   					name = displayObject.spriteSheet._images[0].attributes[0].nodeValue;
   				}
@@ -936,11 +932,11 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Returns a game asset
-  		 * @param  {String} name the asset name
-  		 * @return {Object}	  the asset
+  		 * @param	{String} name the asset name
+  		 * @return {Object}		the asset
   		 */
   		returnAsset: function( value, lookupKey ) {
-  			if( _.isUndefined( lookupKey )) 
+  			if( _.isUndefined( lookupKey ))
   				lookupKey = DEFAULT_KEY;
 
   			var len = GameConfig.MANIFEST.length;
@@ -952,14 +948,14 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   					}
   				}
   			};
-  			
-  			return false; 
+
+  			return false;
   		},
 
   		/**
   		 * Returns an image url
-  		 * @param  {String} value the asset value-pair
-  		 * @return {String}	  the asset url
+  		 * @param	{String} value the asset value-pair
+  		 * @return {String}		the asset url
   		 */
   		returnAssetImage: function( value, lookupKey ) {
   			var len = GameConfig.MANIFEST.length;
@@ -972,13 +968,13 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   				}
   			};
 
-  			return false; 
+  			return false;
   		},
 
   		/**
   		 * Returns a spritesheet object
-  		 * @param  {String} value the asset value
-  		 * @return {Object}	  the asset spritesheet
+  		 * @param	{String} value the asset value
+  		 * @return {Object}		the asset spritesheet
   		 */
   		returnAssetSpriteSheet: function( value, lookupKey ) {
   			var len = GameConfig.MANIFEST.length;
@@ -991,7 +987,7 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   				}
   			};
 
-  			return false; 
+  			return false;
   		}
   	}
 
@@ -1035,7 +1031,7 @@ window.require.define({"utils/Utils": function(exports, require, module) {
 
   	/**
   	 * Rotates a 2-Dimensional array to the right
-  	 * @param  {Array} array
+  	 * @param	{Array} array
   	 */
   	rotateArrayRight: function( array ) {
   		var transformedArray = new Array();
@@ -1057,9 +1053,9 @@ window.require.define({"utils/Utils": function(exports, require, module) {
 
   	/**
   	 * Rotates a 2-Dimensional array to the left
-  	 * @param  {Array} array
+  	 * @param	{Array} array
   	 */
-  	rotateArrayLeft: function( array )  {
+  	rotateArrayLeft: function( array )	{
   		var transformedArray = new Array();
   		var aLen = array[0].length;
   		var row = -1;
@@ -1084,17 +1080,17 @@ window.require.define({"utils/Utils": function(exports, require, module) {
 window.require.define({"views/GameView": function(exports, require, module) {
   /**
    * View Description
-   * 
+   *
    * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   *
+   * @author
+   * @since
    */
 
-  var View        = require('core/View');
-  var Utils 		  = require('utils/Utils');
+  var View				= require('core/View');
+  var Utils 			= require('utils/Utils');
   var CreateUtils = require('utils/CreateUtils');
-  var GameConfig  = require('config/GameConfig');
+  var GameConfig	= require('config/GameConfig');
 
   var GameView = View.extend({
 
@@ -1141,37 +1137,37 @@ window.require.define({"views/GameView": function(exports, require, module) {
   					h = w;
 
   			var square = CreateUtils.createRect( Utils.returnRandomHexColor(), w, h, .5 );
-  	    square.x = 0;
-  	    square.y = 0;
-  	    sprite.addChild( square );
+  			square.x = 0;
+  			square.y = 0;
+  			sprite.addChild( square );
 
-  	    function moveBox( square ) {
-  	    	var scale = Math.random() * 1.5;
+  			function moveBox( square ) {
+  				var scale = Math.random() * 1.5;
 
-  	    	TweenMax.to( square, 2, {
-  		      x: Math.random() * GameConfig.STAGE.stageWidth,
-  		      y: Math.random() * GameConfig.STAGE.stageHeight,
-  		      rotation: Math.random() * 360,
-  		      scaleX: scale,
-  		      scaleY: scale, 
-  		      ease: Expo.easeInOut,
-  		      overwrite: 'none',
-  		      onComplete: function() {
-  		      	moveBox( this.target );
-  		      }
-  		    });
-  	    }
+  				TweenMax.to( square, 2, {
+  					x: Math.random() * GameConfig.STAGE.stageWidth,
+  					y: Math.random() * GameConfig.STAGE.stageHeight,
+  					rotation: Math.random() * 360,
+  					scaleX: scale,
+  					scaleY: scale,
+  					ease: Expo.easeInOut,
+  					overwrite: 'none',
+  					onComplete: function() {
+  						moveBox( this.target );
+  					}
+  				});
+  			}
 
-  	    moveBox( square );
+  			moveBox( square );
   		}
 
-  		for( var i = 0; i < 100; ++i ) 
+  		for( var i = 0; i < 100; ++i )
   			createBox();
   	},
 
   	/**
   	 * Disposes of the view
-  	 * 
+  	 *
   	 */
   	dispose: function( options ) {
   		this._super( options );
@@ -1192,7 +1188,6 @@ window.require.define({"views/GameView": function(exports, require, module) {
   });
 
   module.exports = GameView;
-
   
 }});
 
