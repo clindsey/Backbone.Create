@@ -17,10 +17,18 @@ var GameView = View.extend({
 	 */
 	id: 'gameView',
 
+	/**
+	 * Backbone.Mediator subscriptions
+	 * @type {Object}
+	 */
+	subscriptions: {
+		'views:dispose': 'dispose'
+	},
+
 
 	//--------------------------------------
-  	//+ INHERITED / OVERRIDES
-  	//--------------------------------------
+	//+ INHERITED / OVERRIDES
+	//--------------------------------------
 
 	/*
 	 * Initializes the view
@@ -36,7 +44,15 @@ var GameView = View.extend({
 		this._super( options );
 		
 		return this;
-	}
+	},
+
+	/**
+	 * Disposes of the view
+	 * 
+	 */
+	dispose: function( options ) {
+		this._super( options );
+	},
 
 	//--------------------------------------
 	//+ PUBLIC METHODS / GETTERS / SETTERS

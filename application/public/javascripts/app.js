@@ -75,12 +75,6 @@
 })();
 
 window.require.define({"Application": function(exports, require, module) {
-  //JavaScript////////////////////////////////////////////////////////////////////
-  // 
-  // Copyright 2012 
-  // 
-  ////////////////////////////////////////////////////////////////////////////////
-
   /**
    * Application Bootstrapper
    * 
@@ -508,22 +502,25 @@ window.require.define({"core/View": function(exports, require, module) {
         data = this.model.attributes;
       
       this.delegateEvents();
+      this.addEventListeners();
+      this.rendered = true;
       
       return this;
     },
 
     /**
      * Disposes of the view
-     * @return {View}
+     * @param  {Object} options
+     *  - animated : {Boolean}
+     *  - currView : {Object}
      */
     dispose: function( options ) {
       options = options || {};
+
+      if( options.currView === this || !this.rendered ) 
+        return;
       
       this.rendered = false;
-
-      if( options.currView === this ) 
-        return;
-
       this.undelegateEvents();
       this.removeEventListeners();
       
@@ -533,8 +530,15 @@ window.require.define({"core/View": function(exports, require, module) {
       if( this.collection && this.collection.off ) 
         this.collection.off( null, null, this );
 
+      var self = this;
+
       if( !_.isNull( this.sprite ))
-        this.sprite.removeAllChildren();
+        if( !_.isUndefined( options.animated ) && options.animated )
+          this.animateOut(function() {
+            self.sprite.removeAllChildren();
+          });
+        else 
+          this.sprite.removeAllChildren();
     },
 
 
@@ -558,13 +562,19 @@ window.require.define({"core/View": function(exports, require, module) {
      * Animate in
      * @type {noop}
      */
-    animateIn: function() {},
+    animateIn: function( callback ) {
+      if( !_.isUndefined( callback ))
+        callback();
+    },
 
     /**
      * Animate out
      * @type {noop}
      */
-    animateOut: function() {}
+    animateOut: function( callback ) {
+      if( !_.isUndefined( callback ))
+        callback();
+    }
 
 
     //--------------------------------------
@@ -712,7 +722,6 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
    * @since 12.23.12
    */
 
-  var AppConfig  = require('config/AppConfig');
   var GameConfig = require('config/GameConfig');
 
   var Utils = (function() {
@@ -997,10 +1006,18 @@ window.require.define({"views/GameView": function(exports, require, module) {
   	 */
   	id: 'gameView',
 
+  	/**
+  	 * Backbone.Mediator subscriptions
+  	 * @type {Object}
+  	 */
+  	subscriptions: {
+  		'views:dispose': 'dispose'
+  	},
+
 
   	//--------------------------------------
-    	//+ INHERITED / OVERRIDES
-    	//--------------------------------------
+  	//+ INHERITED / OVERRIDES
+  	//--------------------------------------
 
   	/*
   	 * Initializes the view
@@ -1016,7 +1033,15 @@ window.require.define({"views/GameView": function(exports, require, module) {
   		this._super( options );
   		
   		return this;
-  	}
+  	},
+
+  	/**
+  	 * Disposes of the view
+  	 * 
+  	 */
+  	dispose: function( options ) {
+  		this._super( options );
+  	},
 
   	//--------------------------------------
   	//+ PUBLIC METHODS / GETTERS / SETTERS

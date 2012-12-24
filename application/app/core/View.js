@@ -64,22 +64,25 @@ var View = Backbone.View.extend({
       data = this.model.attributes;
     
     this.delegateEvents();
+    this.addEventListeners();
+    this.rendered = true;
     
     return this;
   },
 
   /**
    * Disposes of the view
-   * @return {View}
+   * @param  {Object} options
+   *  - animated : {Boolean}
+   *  - currView : {Object}
    */
   dispose: function( options ) {
     options = options || {};
+
+    if( options.currView === this || !this.rendered ) 
+      return;
     
     this.rendered = false;
-
-    if( options.currView === this ) 
-      return;
-
     this.undelegateEvents();
     this.removeEventListeners();
     
@@ -89,8 +92,15 @@ var View = Backbone.View.extend({
     if( this.collection && this.collection.off ) 
       this.collection.off( null, null, this );
 
+    var self = this;
+
     if( !_.isNull( this.sprite ))
-      this.sprite.removeAllChildren();
+      if( !_.isUndefined( options.animated ) && options.animated )
+        this.animateOut(function() {
+          self.sprite.removeAllChildren();
+        });
+      else 
+        this.sprite.removeAllChildren();
   },
 
 
@@ -114,13 +124,19 @@ var View = Backbone.View.extend({
    * Animate in
    * @type {noop}
    */
-  animateIn: function() {},
+  animateIn: function( callback ) {
+    if( !_.isUndefined( callback ))
+      callback();
+  },
 
   /**
    * Animate out
    * @type {noop}
    */
-  animateOut: function() {}
+  animateOut: function( callback ) {
+    if( !_.isUndefined( callback ))
+      callback();
+  }
 
 
   //--------------------------------------

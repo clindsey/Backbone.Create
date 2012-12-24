@@ -5,7 +5,6 @@
  * @since 12.23.12
  */
 
-var AppConfig  = require('config/AppConfig');
 var GameConfig = require('config/GameConfig');
 
 var Utils = (function() {
