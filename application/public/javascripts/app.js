@@ -350,16 +350,16 @@ window.require.define({"core/Collection": function(exports, require, module) {
   	//--------------------------------------
   	
   	//--------------------------------------
-    	//+ PUBLIC METHODS / GETTERS / SETTERS
-    	//--------------------------------------
+  	//+ PUBLIC METHODS / GETTERS / SETTERS
+  	//--------------------------------------
 
-    	//--------------------------------------
-    	//+ EVENT HANDLERS
-    	//--------------------------------------
+  	//--------------------------------------
+  	//+ EVENT HANDLERS
+  	//--------------------------------------
 
-    	//--------------------------------------
-    	//+ PRIVATE AND PROTECTED METHODS
-    	//--------------------------------------
+  	//--------------------------------------
+  	//+ PRIVATE AND PROTECTED METHODS
+  	//--------------------------------------
 
   });
 
@@ -387,16 +387,16 @@ window.require.define({"core/Model": function(exports, require, module) {
   	//--------------------------------------
   	
   	//--------------------------------------
-    	//+ PUBLIC METHODS / GETTERS / SETTERS
-    	//--------------------------------------
+  	//+ PUBLIC METHODS / GETTERS / SETTERS
+  	//--------------------------------------
 
-    	//--------------------------------------
-    	//+ EVENT HANDLERS
-    	//--------------------------------------
+  	//--------------------------------------
+  	//+ EVENT HANDLERS
+  	//--------------------------------------
 
-    	//--------------------------------------
-    	//+ PRIVATE AND PROTECTED METHODS
-    	//--------------------------------------
+  	//--------------------------------------
+  	//+ PRIVATE AND PROTECTED METHODS
+  	//--------------------------------------
     
   });
 
@@ -417,19 +417,18 @@ window.require.define({"core/Router": function(exports, require, module) {
   var Router = Backbone.Router.extend({
 
   	//--------------------------------------
-      //+ INHERITED / OVERRIDES
-      //--------------------------------------
-      
-  	routes: {},
+    //+ INHERITED / OVERRIDES
+    //--------------------------------------
 
-      /**
-       * Initializes the Base router
-       * @param  {Object} options 
-       * 
-       */
-      initialize: function( options ) {
+    /**
+     * Initializes the Base router
+     * @param  {Object} options 
+     * 
+     */
+    initialize: function( options ) {
+      this._super( options );
+    }
 
-      }
   });
 
   module.exports = Router;
@@ -441,8 +440,8 @@ window.require.define({"core/View": function(exports, require, module) {
    * 
    * @langversion JavaScript
    * 
-   * @author 
-   * @since  
+   * @author Christopher Pappas 
+   * @since 12.23.12
    */
 
   var Model = require('core/Model');
@@ -532,13 +531,26 @@ window.require.define({"core/View": function(exports, require, module) {
 
       var self = this;
 
-      if( !_.isNull( this.sprite ))
+      // Check if view contains a sprite
+      if( !_.isNull( this.sprite ) || !_.isNull( this.spritesheet ))
+
+        // Check if animated
         if( !_.isUndefined( options.animated ) && options.animated )
+          
+          // Animate view out and then remove children
           this.animateOut(function() {
-            self.sprite.removeAllChildren();
+            if( !_.isNull( this.sprite ))
+              self.sprite.removeAllChildren();
+            else 
+              self.spritesheet.removeAllChildren();
           });
+
+        // or just remove children
         else 
-          this.sprite.removeAllChildren();
+          if( !_.isNull( this.sprite ))
+            self.sprite.removeAllChildren();
+          else 
+            self.spritesheet.removeAllChildren();
     },
 
 
@@ -803,7 +815,6 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   		/**
   		 * Util for dragging display objects to aproximate positioning
   		 * @param  {Array} objArr An array of display objects to drag
-  		 *
   		 */
   		dragObject: function( objArr ) {
   			_.each( objArr, function( displayObject ) {
@@ -858,7 +869,6 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Returns an image url
-  		 * // TODO: Merge image and spritesheet into one returnAsset method
   		 * @param  {String} value the asset value-pair
   		 * @return {String}	  the asset url
   		 */
@@ -878,7 +888,6 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
 
   		/**
   		 * Returns a spritesheet object
-  		 * // TODO: Merge image and spritesheet into one returnAsset method
   		 * @param  {String} value the asset value
   		 * @return {Object}	  the asset spritesheet
   		 */
@@ -910,9 +919,6 @@ window.require.define({"utils/Utils": function(exports, require, module) {
    * @since 11.27.12
    */
 
-  var AppConfig = require('config/AppConfig');
-  var GameConfig = require('config/GameConfig');
-
   var Utils = {
 
   	/**
@@ -921,7 +927,7 @@ window.require.define({"utils/Utils": function(exports, require, module) {
   	 * @param {Number} max
   	 */
   	randRange: function( min, max ) {
-  		return Math.floor(Math.random() * (max - min + 1)) + min;
+  		return Math.floor( Math.random() * ( max - min + 1 )) + min;
   	},
 
   	/**
@@ -929,10 +935,10 @@ window.require.define({"utils/Utils": function(exports, require, module) {
   	 *
   	 */
   	returnRandomHexColor: function() {
-  		var letters = '0123456789ABCDEF'.split('');
+  		var letters = '0123456789ABCDEF'.split( '' );
   		var color = '#';
   		for ( var i = 0; i < 6; i++ ) {
-  			color += letters[ Math.round( Math.random() * 15 ) ];
+  			color += letters[ Math.round( Math.random() * 15 )];
   		}
 
   		return color;

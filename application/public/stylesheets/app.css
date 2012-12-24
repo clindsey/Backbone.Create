@@ -71,14 +71,20 @@ td { vertical-align: top; }
  * @author Christopher Pappas
  * @since  Month 00, 2012
  */
-@media -sass-debug-info{filename{}line{font-family:\0000310}}
+@media -sass-debug-info{filename{}line{font-family:\0000313}}
 * {
   box-sizing: border-box; }
 
-@media -sass-debug-info{filename{}line{font-family:\0000314}}
-#home-view {
-  width: 1003px;
-  margin: 0 auto; }
+@media -sass-debug-info{filename{}line{font-family:\0000317}}
+body {
+  background: #223f54 url("../images/bg-repeatable.png");
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
 .ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; *line-height: 0; }
 .ir br { display: none; }
 .hidden { display: none !important; visibility: hidden; }

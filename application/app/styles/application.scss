@@ -7,11 +7,21 @@
  * @since  Month 00, 2012
  */
 
+$imagePath: '../images/';
+$backgroundImage: $imagePath + 'bg-repeatable.png';
+
 * {
   box-sizing: border-box;
 }
 
-#home-view {
-  width: 1003px;
-  margin: 0 auto;
+body {
+	background: #223f54 url( $backgroundImage );
+	overflow: hidden;
+	user-select: none;
+	width: 100%;
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 }

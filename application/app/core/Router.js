@@ -10,19 +10,18 @@
 var Router = Backbone.Router.extend({
 
 	//--------------------------------------
-    //+ INHERITED / OVERRIDES
-    //--------------------------------------
-    
-	routes: {},
+  //+ INHERITED / OVERRIDES
+  //--------------------------------------
 
-    /**
-     * Initializes the Base router
-     * @param  {Object} options 
-     * 
-     */
-    initialize: function( options ) {
+  /**
+   * Initializes the Base router
+   * @param  {Object} options 
+   * 
+   */
+  initialize: function( options ) {
+    this._super( options );
+  }
 
-    }
 });
 
 module.exports = Router;

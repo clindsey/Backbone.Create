@@ -3,8 +3,8 @@
  * 
  * @langversion JavaScript
  * 
- * @author 
- * @since  
+ * @author Christopher Pappas 
+ * @since 12.23.12
  */
 
 var Model = require('core/Model');
@@ -94,13 +94,26 @@ var View = Backbone.View.extend({
 
     var self = this;
 
-    if( !_.isNull( this.sprite ))
+    // Check if view contains a sprite
+    if( !_.isNull( this.sprite ) || !_.isNull( this.spritesheet ))
+
+      // Check if animated
       if( !_.isUndefined( options.animated ) && options.animated )
+        
+        // Animate view out and then remove children
         this.animateOut(function() {
-          self.sprite.removeAllChildren();
+          if( !_.isNull( this.sprite ))
+            self.sprite.removeAllChildren();
+          else 
+            self.spritesheet.removeAllChildren();
         });
+
+      // or just remove children
       else 
-        this.sprite.removeAllChildren();
+        if( !_.isNull( this.sprite ))
+          self.sprite.removeAllChildren();
+        else 
+          self.spritesheet.removeAllChildren();
   },
 
 

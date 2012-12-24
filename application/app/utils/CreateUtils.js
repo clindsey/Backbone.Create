@@ -86,7 +86,6 @@ var Utils = (function() {
 		/**
 		 * Util for dragging display objects to aproximate positioning
 		 * @param  {Array} objArr An array of display objects to drag
-		 *
 		 */
 		dragObject: function( objArr ) {
 			_.each( objArr, function( displayObject ) {
@@ -141,7 +140,6 @@ var Utils = (function() {
 
 		/**
 		 * Returns an image url
-		 * // TODO: Merge image and spritesheet into one returnAsset method
 		 * @param  {String} value the asset value-pair
 		 * @return {String}	  the asset url
 		 */
@@ -161,7 +159,6 @@ var Utils = (function() {
 
 		/**
 		 * Returns a spritesheet object
-		 * // TODO: Merge image and spritesheet into one returnAsset method
 		 * @param  {String} value the asset value
 		 * @return {Object}	  the asset spritesheet
 		 */

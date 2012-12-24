@@ -5,9 +5,6 @@
  * @since 11.27.12
  */
 
-var AppConfig = require('config/AppConfig');
-var GameConfig = require('config/GameConfig');
-
 var Utils = {
 
 	/**
@@ -16,7 +13,7 @@ var Utils = {
 	 * @param {Number} max
 	 */
 	randRange: function( min, max ) {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
+		return Math.floor( Math.random() * ( max - min + 1 )) + min;
 	},
 
 	/**
@@ -24,10 +21,10 @@ var Utils = {
 	 *
 	 */
 	returnRandomHexColor: function() {
-		var letters = '0123456789ABCDEF'.split('');
+		var letters = '0123456789ABCDEF'.split( '' );
 		var color = '#';
 		for ( var i = 0; i < 6; i++ ) {
-			color += letters[ Math.round( Math.random() * 15 ) ];
+			color += letters[ Math.round( Math.random() * 15 )];
 		}
 
 		return color;
