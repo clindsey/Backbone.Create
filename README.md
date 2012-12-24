@@ -8,7 +8,7 @@ TODO:  Write docs, unit-tests and more feature-complete framework
 (Open 'public' to see current working example.)
 
 ## Development
-- Install node:  http://nodejs.org/
+- Install Node:  http://nodejs.org/
 - Install Brunch: `sudo npm install -g brunch` 
 - Install SASS `sudo gem install sass`. 
 - Run `sudo npm install` to install any node dev dependencies listed in package.json. 
