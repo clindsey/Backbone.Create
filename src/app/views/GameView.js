@@ -56,7 +56,7 @@ var GameView = View.extend({
 			var w = Math.random() * 200,
 					h = w;
 
-			var square = CreateUtils.createRect( Utils.returnRandomHexColor(), w, h, .5 );
+			var square = CreateUtils.createRect( Utils.returnRandomHexColor(), w, h, 1 );
 			square.x = 0;
 			square.y = 0;
 			sprite.addChild( square );

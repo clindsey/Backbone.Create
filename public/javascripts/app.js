@@ -917,7 +917,7 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   				displayObject.onPress = function( event ) {
   					var offset = { x:displayObject.x - event.stageX, y: displayObject.y - event.stageY };
 
-  					evt.onMouseMove = function(ev) {
+  					event.onMouseMove = function( ev ) {
   						var x = ev.stageX + offset.x;
   						var y = ev.stageY + offset.y;
 
@@ -942,11 +942,9 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   			var len = GameConfig.MANIFEST.length;
   			for( var i = 0; i < len; ++i ) {
   				var asset = GameConfig.MANIFEST[i];
-  				if( asset.hasOwnProperty( lookupKey )) {
-  					if( asset[lookupKey] === value ) {
+  				if( asset.hasOwnProperty( lookupKey ))
+  					if( asset[lookupKey] === value )
   						return asset;
-  					}
-  				}
   			};
 
   			return false;
@@ -961,11 +959,9 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   			var len = GameConfig.MANIFEST.length;
   			for( var i = 0; i < len; ++i ) {
   				var asset = GameConfig.MANIFEST[i];
-  				if( asset.hasOwnProperty( lookupKey )) {
-  					if( asset[lookupKey] === value ) {
+  				if( asset.hasOwnProperty( lookupKey ))
+  					if( asset[lookupKey] === value )
   						return asset.src;
-  					}
-  				}
   			};
 
   			return false;
@@ -980,11 +976,9 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   			var len = GameConfig.MANIFEST.length;
   			for( var i = 0; i < len; ++i ) {
   				var asset = GameConfig.MANIFEST[i];
-  				if( asset.hasOwnProperty( lookupKey )) {
-  					if( asset[lookupKey] === value ) {
+  				if( asset.hasOwnProperty( lookupKey ))
+  					if( asset[lookupKey] === value )
   						return asset.spritesheet;
-  					}
-  				}
   			};
 
   			return false;
@@ -1136,7 +1130,7 @@ window.require.define({"views/GameView": function(exports, require, module) {
   			var w = Math.random() * 200,
   					h = w;
 
-  			var square = CreateUtils.createRect( Utils.returnRandomHexColor(), w, h, .5 );
+  			var square = CreateUtils.createRect( Utils.returnRandomHexColor(), w, h, 1 );
   			square.x = 0;
   			square.y = 0;
   			sprite.addChild( square );

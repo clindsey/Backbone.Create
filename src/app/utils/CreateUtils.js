@@ -118,7 +118,7 @@ var CreateUtils = (function() {
 				displayObject.onPress = function( event ) {
 					var offset = { x:displayObject.x - event.stageX, y: displayObject.y - event.stageY };
 
-					evt.onMouseMove = function(ev) {
+					event.onMouseMove = function( ev ) {
 						var x = ev.stageX + offset.x;
 						var y = ev.stageY + offset.y;
 
@@ -143,11 +143,9 @@ var CreateUtils = (function() {
 			var len = GameConfig.MANIFEST.length;
 			for( var i = 0; i < len; ++i ) {
 				var asset = GameConfig.MANIFEST[i];
-				if( asset.hasOwnProperty( lookupKey )) {
-					if( asset[lookupKey] === value ) {
+				if( asset.hasOwnProperty( lookupKey ))
+					if( asset[lookupKey] === value )
 						return asset;
-					}
-				}
 			};
 
 			return false;
@@ -162,11 +160,9 @@ var CreateUtils = (function() {
 			var len = GameConfig.MANIFEST.length;
 			for( var i = 0; i < len; ++i ) {
 				var asset = GameConfig.MANIFEST[i];
-				if( asset.hasOwnProperty( lookupKey )) {
-					if( asset[lookupKey] === value ) {
+				if( asset.hasOwnProperty( lookupKey ))
+					if( asset[lookupKey] === value )
 						return asset.src;
-					}
-				}
 			};
 
 			return false;
@@ -181,11 +177,9 @@ var CreateUtils = (function() {
 			var len = GameConfig.MANIFEST.length;
 			for( var i = 0; i < len; ++i ) {
 				var asset = GameConfig.MANIFEST[i];
-				if( asset.hasOwnProperty( lookupKey )) {
-					if( asset[lookupKey] === value ) {
+				if( asset.hasOwnProperty( lookupKey ))
+					if( asset[lookupKey] === value )
 						return asset.spritesheet;
-					}
-				}
 			};
 
 			return false;
