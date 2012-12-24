@@ -2,7 +2,8 @@ exports.config =
   # See docs at http://brunch.readthedocs.org/en/latest/config.html.
 
   # Application build path.  Default is public
-  #buildPath: ''
+  paths:
+    public: '../public'
 
   files:
     javascripts:
