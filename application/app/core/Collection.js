@@ -7,7 +7,7 @@
  * @since  
  */
 
-Collection = Backbone.Collection.extend({
+var Collection = Backbone.Collection.extend({
 
 	//--------------------------------------
 	//+ PUBLIC PROPERTIES / CONSTANTS

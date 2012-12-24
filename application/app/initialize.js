@@ -8,13 +8,13 @@
  * @since  
  */
 
-var application = require('Application');
+var Application = require('Application');
 
 $(function() {
 
-	// Initialize Application
-	application.initialize();
+  // Initialize Application
+  Application.initialize();
 
-	// Start Backbone router
-  	Backbone.history.start();
+  // Start Backbone router
+  Backbone.history.start();
 });

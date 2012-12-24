@@ -15,11 +15,13 @@ exports.config =
       order:
         before: [
           'vendor/scripts/console-helper.js',
-          'vendor/scripts/jquery-1.7.2.js',
-          'vendor/scripts/underscore-1.3.3.js',
+          'vendor/scripts/jquery-1.8.3.min.js',
+          'vendor/scripts/lodash.js',
           'vendor/scripts/backbone-0.9.9.js',
           'vendor/scripts/backbone-mediator.js',
-          'vendor/scripts/backbone.super.js'
+          'vendor/scripts/backbone.super.js',
+          'vendor/scripts/greensock/TweenMax.min.js',
+          'vendor/scripts/greensock/easing/EasePack.min.js'
         ]
 
     stylesheets:

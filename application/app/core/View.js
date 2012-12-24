@@ -7,22 +7,38 @@
  * @since  
  */
 
-require('helpers/ViewHelper');
+var Model = require('core/Model');
 
-View = Backbone.View.extend({
+var View = Backbone.View.extend({
 
-  //--------------------------------------
-  //+ PUBLIC PROPERTIES / CONSTANTS
-  //--------------------------------------
-
-  /*
-   * @private
+  /**
+   * Base c.Container reference
+   * @type {CreateJS.Container}
    */
-  template: function() {},
-  /*
-   * @private
+  sprite: null,
+
+  /**
+   * If a view is a MovieClip, all animation should be referencable by this
+   * @type {CreateJS.SpriteSheet}
    */
-  getRenderData: function() {},
+  spritesheet: null,
+
+  /**
+   * @type {Backbone.Model}
+   */
+  model: null,
+
+  /**
+   * @type {Backbone.Collection}
+   */
+  collection: null,
+
+  /**
+   * Flag for render detection
+   * @type {Boolean}
+   */
+  rendered: false,
+
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
@@ -31,24 +47,75 @@ View = Backbone.View.extend({
   /*
    * @private
    */
-  initialize: function() {
-    this.render = _.bind(this.render, this);
+  initialize: function( options ) {
+    _.bindAll( this );
+
+    this.options = options || {};
+    this.sprite = new c.Container();
   },
 
   /*
    * @private
    */
-  render: function() {
-    this.$el.html( this.template( this.getRenderData() ) );
-    this.afterRender();
+  render: function( data ) {
+    data = data || this.model || {};
+    
+    if( data instanceof Model ) 
+      data = this.model.attributes;
+    
+    this.delegateEvents();
     
     return this;
   },
 
-  /*
-   * @private
+  /**
+   * Disposes of the view
+   * @return {View}
    */
-  afterRender: function() {}
+  dispose: function( options ) {
+    options = options || {};
+    
+    this.rendered = false;
+
+    if( options.currView === this ) 
+      return;
+
+    this.undelegateEvents();
+    this.removeEventListeners();
+    
+    if( this.model && this.model.off ) 
+      this.model.off( null, null, this );
+
+    if( this.collection && this.collection.off ) 
+      this.collection.off( null, null, this );
+
+    if( !_.isNull( this.sprite ))
+      this.sprite.removeAllChildren();
+  },
+
+  /**
+   * Add event listeners
+   */
+  addEventListeners: function() {},
+
+  /**
+   * Remove event listeners
+   * @type {noop}
+   */
+  removeEventListeners: function() {},
+
+  /**
+   * Animate in
+   * @type {noop}
+   */
+  animateIn: function() {},
+
+  /**
+   * Animate out
+   * @type {noop}
+   */
+  animateOut: function() {}
+
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS

@@ -86,32 +86,139 @@ window.require.define({"Application": function(exports, require, module) {
    * 
    * @langversion JavaScript
    * 
-   * @author 
-   * @since  
+   * @author Christopher Pappas
+   * @since 12.23.12
    */
 
+  var GameConfig = require( 'config/GameConfig' );
+
+  /**
+   * CreateJS Namespace alias
+   * @type {CreateJS}
+   */
+  c = createjs;
+
+  /**
+   * Primary Game object
+   * @type {Object}
+   */
   Application = {
 
-      //--------------------------------------
-      //+ PUBLIC PROPERTIES / CONSTANTS
-      //--------------------------------------
+    /**
+     * The EaselJS stage
+     * @type {c.Stage}
+     */
+    stage: null,
 
-      //--------------------------------------
-      //+ INHERITED / OVERRIDES
-      //--------------------------------------
+    /**
+     * Primary canvas ref
+     * @type {DOMElement}
+     */
+    canvas: null,
 
-      initialize: function() {
+    /**
+     * Canvas top level parent container
+     * @type {c.Container}
+     */
+    container: null,
 
-          // Import views
-          var HomeView = require('views/HomeView');
-          var ApplicationRouter = require('routers/ApplicationRouter');
+    /**
+     * The onEnterFrame ticker
+     * @type {Object}
+     */
+    ticker: {},
 
-          // Initialize views
-          this.homeView = new HomeView();
-          this.applicationRouter = new ApplicationRouter();
 
-          if (typeof Object.freeze === 'function') Object.freeze(this);
-      }
+    //--------------------------------------
+    //+ INHERITED / OVERRIDES
+    //--------------------------------------
+
+    /**
+     * Initialize the app
+     */
+    initialize: function() {
+      _.bindAll( this )
+
+      // Import views
+      var GameView = require('views/GameView');
+      var ApplicationRouter = require('routers/ApplicationRouter');
+
+      // Setup the canvas
+      this.canvas = document.getElementById( 'canvas' );
+
+      // Setup EaselJS
+      this.stage = new c.Stage( this.canvas );
+      this.stage.mouseEventsEnabled = true;
+      this.stage.snapToPixelEnabled = true;
+      this.stage.enableMouseOver();
+      c.Touch.enable( this.stage );
+
+      // Setup ticker
+      c.Ticker.setFPS( GameConfig.STAGE_PROPERTIES.fps );
+      this.ticker.tick = this.__onTickerUpdate;
+
+      // Canvas container
+      this.container = new c.Container();
+      this.container.width = GameConfig.STAGE_PROPERTIES.width
+      this.container.x = GameConfig.STAGE_PROPERTIES.width * .5 - this.container.width * .5;
+
+      // Initialize views
+      this.gameView = new GameView();
+      this.applicationRouter = new ApplicationRouter();
+
+      // Start the ticker
+      this.start();
+    },
+
+
+    //--------------------------------------
+    //+ EVENT HANDLERS
+    //--------------------------------------
+
+    /**
+     * The game ticker
+     *
+     */
+    __onTickerUpdate: function() {
+      Application.stage.update();
+    },
+
+
+    //--------------------------------------
+    //+ PUBLIC METHODS / GETTERS / SETTERS
+    //--------------------------------------
+
+    /**
+     * Starts the game
+     *
+     */
+    start: function() {
+      c.Ticker.addListener( this.ticker, false );
+    },
+
+    /**
+     * Pauses the game
+     *
+     */
+    pause: function() {
+      c.Ticker.removeListener( this.ticker );
+    },
+
+    /**
+     * Resumes the game
+     *
+     */
+    resume: function() {
+      c.Ticker.addListener( this.ticker );
+    },
+
+    /**
+     * Stops the game
+     *
+     */
+    stop: function() {
+
+    }
   }
 
   module.exports = Application;
@@ -147,6 +254,41 @@ window.require.define({"config/ApplicationConfig": function(exports, require, mo
   module.exports = ApplicationConfig;
 }});
 
+window.require.define({"config/GameConfig": function(exports, require, module) {
+  /**
+   * Game Configuration
+   * 
+   * @langversion JavaScript
+   * 
+   * @author 
+   * @since  
+   */
+
+  var GameConfig = (function() {
+
+  	/**
+  	 * Basic stage properties
+  	 * @type {Object}
+  	 */
+  	var _stageProperties = {
+  		width: 1000,
+  		height: 500,
+  		background: '#000',
+  		fps: 60
+  	}
+
+  	/*
+  		 * Public interface
+  	 */
+  	return {
+  		STAGE_PROPERTIES: _stageProperties
+  	}
+
+  }).call()
+
+  module.exports = GameConfig;
+}});
+
 window.require.define({"core/Collection": function(exports, require, module) {
   /**
    * Base Class for all Backbone Collections
@@ -157,7 +299,7 @@ window.require.define({"core/Collection": function(exports, require, module) {
    * @since  
    */
 
-  Collection = Backbone.Collection.extend({
+  var Collection = Backbone.Collection.extend({
 
   	//--------------------------------------
   	//+ PUBLIC PROPERTIES / CONSTANTS
@@ -194,7 +336,7 @@ window.require.define({"core/Model": function(exports, require, module) {
    * @since  
    */
 
-  Model = Backbone.Model.extend({
+  var Model = Backbone.Model.extend({
 
   	//--------------------------------------
   	//+ PUBLIC PROPERTIES / CONSTANTS
@@ -232,7 +374,7 @@ window.require.define({"core/Router": function(exports, require, module) {
    * @since  
    */
 
-  Router = Backbone.Router.extend({
+  var Router = Backbone.Router.extend({
 
   	//--------------------------------------
       //+ INHERITED / OVERRIDES
@@ -263,22 +405,38 @@ window.require.define({"core/View": function(exports, require, module) {
    * @since  
    */
 
-  require('helpers/ViewHelper');
+  var Model = require('core/Model');
 
-  View = Backbone.View.extend({
+  var View = Backbone.View.extend({
 
-    //--------------------------------------
-    //+ PUBLIC PROPERTIES / CONSTANTS
-    //--------------------------------------
-
-    /*
-     * @private
+    /**
+     * Base c.Container reference
+     * @type {CreateJS.Container}
      */
-    template: function() {},
-    /*
-     * @private
+    sprite: null,
+
+    /**
+     * If a view is a MovieClip, all animation should be referencable by this
+     * @type {CreateJS.SpriteSheet}
      */
-    getRenderData: function() {},
+    spritesheet: null,
+
+    /**
+     * @type {Backbone.Model}
+     */
+    model: null,
+
+    /**
+     * @type {Backbone.Collection}
+     */
+    collection: null,
+
+    /**
+     * Flag for render detection
+     * @type {Boolean}
+     */
+    rendered: false,
+
 
     //--------------------------------------
     //+ INHERITED / OVERRIDES
@@ -287,24 +445,75 @@ window.require.define({"core/View": function(exports, require, module) {
     /*
      * @private
      */
-    initialize: function() {
-      this.render = _.bind(this.render, this);
+    initialize: function( options ) {
+      _.bindAll( this );
+
+      this.options = options || {};
+      this.sprite = new c.Container();
     },
 
     /*
      * @private
      */
-    render: function() {
-      this.$el.html( this.template( this.getRenderData() ) );
-      this.afterRender();
+    render: function( data ) {
+      data = data || this.model || {};
+      
+      if( data instanceof Model ) 
+        data = this.model.attributes;
+      
+      this.delegateEvents();
       
       return this;
     },
 
-    /*
-     * @private
+    /**
+     * Disposes of the view
+     * @return {View}
      */
-    afterRender: function() {}
+    dispose: function( options ) {
+      options = options || {};
+      
+      this.rendered = false;
+
+      if( options.currView === this ) 
+        return;
+
+      this.undelegateEvents();
+      this.removeEventListeners();
+      
+      if( this.model && this.model.off ) 
+        this.model.off( null, null, this );
+
+      if( this.collection && this.collection.off ) 
+        this.collection.off( null, null, this );
+
+      if( !_.isNull( this.sprite ))
+        this.sprite.removeAllChildren();
+    },
+
+    /**
+     * Add event listeners
+     */
+    addEventListeners: function() {},
+
+    /**
+     * Remove event listeners
+     * @type {noop}
+     */
+    removeEventListeners: function() {},
+
+    /**
+     * Animate in
+     * @type {noop}
+     */
+    animateIn: function() {},
+
+    /**
+     * Animate out
+     * @type {noop}
+     */
+    animateOut: function() {}
+
 
     //--------------------------------------
     //+ PUBLIC METHODS / GETTERS / SETTERS
@@ -336,47 +545,32 @@ window.require.define({"events/ApplicationEvents": function(exports, require, mo
 
   var ApplicationEvents = {
   	
-  	/*
-     	 * Public interface
+  	/**
+  	 * Dispatched when view animation completes
+  	 * @type {String}
   	 */
-  	APPLICATION_INITIALIZED: 'onApplicationInitialized'
+  	ANIMATION_IN_COMPLETE: 'onAnimationInComplete',
+
+  	/**
+  	 * Dispatched when view animation out completes
+  	 * @type {String}
+  	 */
+  	ANIMATION_OUT_COMPLETE: 'onAnimationOutComplete',
+
+  	/**
+  	 * Dispatched when application is initialized
+  	 * @type {String}
+  	 */
+  	APPLICATION_INITIALIZED: 'onApplicationInitialized',
+
+  	/**
+  	 * PubSub.  Dispatched when application requests a view cleanup
+  	 * @type {String}
+  	 */
+  	DISPOSE_VIEWS: 'views:dispose'
   }
 
   module.exports = ApplicationConfig;
-}});
-
-window.require.define({"helpers/ViewHelper": function(exports, require, module) {
-  /**
-   * Handlebars Template Helpers
-   * 
-   * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
-   */
-
-
-  //--------------------------------------
-  //+ PUBLIC PROPERTIES / CONSTANTS
-  //--------------------------------------
-
-  //--------------------------------------
-  //+ PUBLIC METHODS / GETTERS / SETTERS
-  //--------------------------------------
-
-  /*
-  * @return String
-  */
-  Handlebars.registerHelper( 'link', function( text, url ) {
-
-    text = Handlebars.Utils.escapeExpression( text );
-    url  = Handlebars.Utils.escapeExpression( url );
-
-    var result = '<a href="' + url + '">' + text + '</a>';
-
-    return new Handlebars.SafeString( result );
-  });
-  
 }});
 
 window.require.define({"initialize": function(exports, require, module) {
@@ -390,15 +584,15 @@ window.require.define({"initialize": function(exports, require, module) {
    * @since  
    */
 
-  var application = require('Application');
+  var Application = require('Application');
 
   $(function() {
 
-  	// Initialize Application
-  	application.initialize();
+    // Initialize Application
+    Application.initialize();
 
-  	// Start Backbone router
-    	Backbone.history.start();
+    // Start Backbone router
+    Backbone.history.start();
   });
   
 }});
@@ -414,25 +608,49 @@ window.require.define({"routers/ApplicationRouter": function(exports, require, m
    */
 
   var Router = require('core/Router');
-  var application = require('Application');
+  var Application = require('Application');
 
-  ApplicationRouter = Router.extend({
+  var ApplicationRouter = Router.extend({
+
+    //--------------------------------------
+  	//+ Routes
+  	//--------------------------------------
+  	
+    /**
+     * A hash of application routes
+     * @type {Object}
+     */
+  	routes: {
+      '': 'gameViewRoute'
+  	},
+    
 
   	//--------------------------------------
-    	//+ Routes
-    	//--------------------------------------
-    	
-    	routes: {
-        '': 'home'
-    	},
+  	//+ Route Handlers
+  	//--------------------------------------
 
-    	//--------------------------------------
-    	//+ Route Handlers
-    	//--------------------------------------
+    /**
+     * Handler for game route
+     */
+  	gameViewRoute: function() {
+      Application.gameView.render();
+  	},
 
-    	home: function() {
-        $( 'body' ).html( application.homeView.render().el );
-    	}
+
+    //--------------------------------------
+    //+ PRIVATE AND PROTECTED METHODS
+    //--------------------------------------
+
+    /**
+     * Generic method which publishes cleanup event to all registered views
+     * @param {Object} options  an options has consisting of
+     *   - animated : {Boolean}  should we animate out the view?
+     */
+    __cleanupViews: function( options ) {
+      Backbone.Mediator.pub( ApplicationEvent.DISPOSE_VIEWS, options );
+    }
+
+
   });
 
   module.exports = ApplicationRouter;
@@ -512,7 +730,7 @@ window.require.define({"utils/BackboneView": function(exports, require, module) 
   module.exports = BackboneView;
 }});
 
-window.require.define({"views/HomeView": function(exports, require, module) {
+window.require.define({"views/GameView": function(exports, require, module) {
   /**
    * View Description
    * 
@@ -522,62 +740,39 @@ window.require.define({"views/HomeView": function(exports, require, module) {
    * @since  
    */
 
-  var View     = require('core/View');
-  var template = require('templates/homeViewTemplate');
+  var View  = require('core/View');
 
-  HomeView = View.extend({
+  var GameView = View.extend({
 
   	//--------------------------------------
   	//+ PUBLIC PROPERTIES / CONSTANTS
   	//--------------------------------------
 
-    	/*
-     	 * @private
-  	 */
-  	id: 'home-view',
   	/*
-     	 * @private
-     	*/
-  	template: template,
+   	 * The id of the view
+   	 * @type {String}
+  	 */
+  	id: 'gameView',
+
 
   	//--------------------------------------
     	//+ INHERITED / OVERRIDES
     	//--------------------------------------
 
   	/*
-  	 * @private
+  	 * Initializes the view
   	 */
-  	initialize: function() {
-  		this.render = _.bind( this.render, this );
+  	initialize: function( options ) {
+  		this._super( options );
   	},
 
   	/*
   	 * @private
   	 */
-  	render: function() {
-  		this.$el.html( this.template( this.getRenderData() ) );
-
+  	render: function( options ) {
+  		this._super( options );
+  		
   		return this;
-  	},
-
-  	/*
-  	 * @private
-  	 */
-  	getRenderData: function() {
-  		return {
-  			artist: "Robert Ashley",
-  			operas: [
-  				"Music with Roots in the Aether (television opera) (1976)",
-  				"Perfect Lives (television opera) (1978–83)",
-  				"Atalanta (Acts of God) (1982–91)",
-  				"Improvement (Don Leaves Linda) (1985)",
-  				"eL/Aficionado (1987)",
-  				"Now Eleanor's Idea (1993)",
-  				"Foreign Experiences (1994)",
-  				"Celestial excursions (2003)",
-  				"Concrete (2006)"
-  			]
-  		}
   	}
 
   	//--------------------------------------
@@ -594,7 +789,7 @@ window.require.define({"views/HomeView": function(exports, require, module) {
 
   });
 
-  module.exports = HomeView;
+  module.exports = GameView;
 
   
 }});

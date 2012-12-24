@@ -71,11 +71,11 @@ td { vertical-align: top; }
  * @author Christopher Pappas
  * @since  Month 00, 2012
  */
-@media -sass-debug-info{filename{font-family:}line{font-family:\0000310}}
+@media -sass-debug-info{filename{}line{font-family:\0000310}}
 * {
   box-sizing: border-box; }
 
-@media -sass-debug-info{filename{font-family:}line{font-family:\0000314}}
+@media -sass-debug-info{filename{}line{font-family:\0000314}}
 #home-view {
   width: 1003px;
   margin: 0 auto; }

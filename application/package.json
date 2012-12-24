@@ -20,14 +20,14 @@
     "coffee-script-brunch": ">= 1.0 < 1.5",
 
     "css-brunch": ">= 1.0 < 1.5",
-    "sass-brunch": "git+ssh://git@github.com:brunch/sass-brunch.git",
+    "sass-brunch": "1.4.2",
 
     "handlebars-brunch": ">= 1.0 < 1.5",
 
     "uglify-js-brunch": ">= 1.0 < 1.5",
     "clean-css-brunch": ">= 1.0 < 1.5",
 
-    "auto-reload-brunch": "git+ssh://git@github.com:brunch/auto-reload-brunch.git"
+    "auto-reload-brunch": "1.4.0"
   },
   "devDependencies": {
     "chai": "1.2.0",

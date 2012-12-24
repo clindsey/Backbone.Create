@@ -7,7 +7,7 @@
  * @since  
  */
 
-Model = Backbone.Model.extend({
+var Model = Backbone.Model.extend({
 
 	//--------------------------------------
 	//+ PUBLIC PROPERTIES / CONSTANTS

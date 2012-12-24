@@ -8,25 +8,49 @@
  */
 
 var Router = require('core/Router');
-var application = require('Application');
+var Application = require('Application');
 
-ApplicationRouter = Router.extend({
+var ApplicationRouter = Router.extend({
+
+  //--------------------------------------
+	//+ Routes
+	//--------------------------------------
+	
+  /**
+   * A hash of application routes
+   * @type {Object}
+   */
+	routes: {
+    '': 'gameViewRoute'
+	},
+  
 
 	//--------------------------------------
-  	//+ Routes
-  	//--------------------------------------
-  	
-  	routes: {
-      '': 'home'
-  	},
+	//+ Route Handlers
+	//--------------------------------------
 
-  	//--------------------------------------
-  	//+ Route Handlers
-  	//--------------------------------------
+  /**
+   * Handler for game route
+   */
+	gameViewRoute: function() {
+    Application.gameView.render();
+	},
 
-  	home: function() {
-      $( 'body' ).html( application.homeView.render().el );
-  	}
+
+  //--------------------------------------
+  //+ PRIVATE AND PROTECTED METHODS
+  //--------------------------------------
+
+  /**
+   * Generic method which publishes cleanup event to all registered views
+   * @param {Object} options  an options has consisting of
+   *   - animated : {Boolean}  should we animate out the view?
+   */
+  __cleanupViews: function( options ) {
+    Backbone.Mediator.pub( ApplicationEvent.DISPOSE_VIEWS, options );
+  }
+
+
 });
 
 module.exports = ApplicationRouter;

@@ -7,7 +7,7 @@
  * @since  
  */
 
-Router = Backbone.Router.extend({
+var Router = Backbone.Router.extend({
 
 	//--------------------------------------
     //+ INHERITED / OVERRIDES
