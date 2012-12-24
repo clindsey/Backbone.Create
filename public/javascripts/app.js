@@ -1188,6 +1188,5 @@ window.require.define({"views/GameView": function(exports, require, module) {
   });
 
   module.exports = GameView;
-  
 }});
 
