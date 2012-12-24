@@ -1,7 +1,7 @@
 Backbone.Create
 ===============
 
-A Backbone.js-based framework for CreateJS canvas projects.  Built on top of [Brunch](http://brunch.io) for assembly.  
+A Backbone.js-based framework for CreateJS [CreateJS](http://www.createjs.com/#!/CreateJS) canvas projects.  Includes [TweenMax](http://www.greensock.com/gsap-js) for super performant animation.  Built on top of [Brunch](http://brunch.io) for assembly.  
 
 TODO:  Write docs, unit-tests and more feature-complete framework
 
