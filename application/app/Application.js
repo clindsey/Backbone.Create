@@ -51,6 +51,12 @@ Application = {
    */
   ticker: {},
 
+  /**
+   * PreloadJS instance
+   * @type {PreloadJS}
+   */
+  _preloadJS: null,
+
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
@@ -91,8 +97,10 @@ Application = {
     this.gameView = new GameView();
     this.applicationRouter = new ApplicationRouter();
 
-    // Start the ticker
-    this.start();
+    // Initialize the preloader and load assets
+    this._preloadJS = new c.PreloadJS();
+    this._preloadJS.onComplete = this.__onLoadComplete;
+    this._preloadJS.loadManifest( GameConfig.MANIFEST );
   },
 
 
@@ -101,7 +109,15 @@ Application = {
   //--------------------------------------
 
   /**
-   * The game ticker
+   * Handler for preload complete events
+   * 
+   */
+  __onLoadComplete: function() {
+    this.start();
+  },
+
+  /**
+   * Handler for ticker update events
    *
    */
   __onTickerUpdate: function() {

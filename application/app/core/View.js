@@ -93,8 +93,14 @@ var View = Backbone.View.extend({
       this.sprite.removeAllChildren();
   },
 
+
+  //--------------------------------------
+  //+ PUBLIC METHODS / GETTERS / SETTERS
+  //--------------------------------------
+
   /**
    * Add event listeners
+   * @type {noop}
    */
   addEventListeners: function() {},
 
@@ -116,10 +122,6 @@ var View = Backbone.View.extend({
    */
   animateOut: function() {}
 
-
-  //--------------------------------------
-  //+ PUBLIC METHODS / GETTERS / SETTERS
-  //--------------------------------------
 
   //--------------------------------------
   //+ EVENT HANDLERS

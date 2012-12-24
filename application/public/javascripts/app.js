@@ -128,6 +128,12 @@ window.require.define({"Application": function(exports, require, module) {
      */
     ticker: {},
 
+    /**
+     * PreloadJS instance
+     * @type {PreloadJS}
+     */
+    _preloadJS: null,
+
 
     //--------------------------------------
     //+ INHERITED / OVERRIDES
@@ -168,8 +174,10 @@ window.require.define({"Application": function(exports, require, module) {
       this.gameView = new GameView();
       this.applicationRouter = new ApplicationRouter();
 
-      // Start the ticker
-      this.start();
+      // Initialize the preloader and load assets
+      this._preloadJS = new c.PreloadJS();
+      this._preloadJS.onComplete = this.__onLoadComplete;
+      this._preloadJS.loadManifest( GameConfig.MANIFEST );
     },
 
 
@@ -178,7 +186,15 @@ window.require.define({"Application": function(exports, require, module) {
     //--------------------------------------
 
     /**
-     * The game ticker
+     * Handler for preload complete events
+     * 
+     */
+    __onLoadComplete: function() {
+      this.start();
+    },
+
+    /**
+     * Handler for ticker update events
      *
      */
     __onTickerUpdate: function() {
@@ -227,7 +243,7 @@ window.require.define({"Application": function(exports, require, module) {
   
 }});
 
-window.require.define({"config/ApplicationConfig": function(exports, require, module) {
+window.require.define({"config/AppConfig": function(exports, require, module) {
   /**
    * Application Configuration
    * 
@@ -237,23 +253,29 @@ window.require.define({"config/ApplicationConfig": function(exports, require, mo
    * @since  
    */
 
-  var ApplicationConfig = (function() {
-
-  	/*
-     	 * @private
+  var AppConfig = {
+  		
+  	/**
+  	 * The application base-url
+  	 * @type {String}
   	 */
-  	var _baseUrl = "/";
+  	BASE_URL: "",
 
-  	/*
-     	 * Public interface
+  	/**
+  	 * Image asset base-url
+  	 * @type {String}
   	 */
-  	return {
-  		BASE_URL: _baseUrl
-  	}
+  	IMAGE_URL: 'images/', 
 
-  }).call()
+  	/**
+  	 * Audio asset base-url
+  	 * @type {String}
+  	 */
+  	AUDIO_URL: 'audio/'
 
-  module.exports = ApplicationConfig;
+  };
+
+  module.exports = AppConfig;
 }});
 
 window.require.define({"config/GameConfig": function(exports, require, module) {
@@ -265,6 +287,8 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
    * @author 
    * @since  
    */
+
+  var AppConfig = require('config/AppConfig');
 
   var GameConfig = (function() {
 
@@ -284,7 +308,7 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   	 * @type {Array}
   	 */
   	var _manifest = [
-
+  		{}
   	];
 
 
@@ -297,7 +321,13 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   		/**
   		 * @type {Object}
   		 */
-  		STAGE_PROPERTIES: _stageProperties
+  		STAGE_PROPERTIES: _stageProperties,
+
+  		/**
+  		 * @type {Array}
+  		 */
+  		MANIFEST: _manifest
+
   	}
 
   }).call()
@@ -507,8 +537,14 @@ window.require.define({"core/View": function(exports, require, module) {
         this.sprite.removeAllChildren();
     },
 
+
+    //--------------------------------------
+    //+ PUBLIC METHODS / GETTERS / SETTERS
+    //--------------------------------------
+
     /**
      * Add event listeners
+     * @type {noop}
      */
     addEventListeners: function() {},
 
@@ -530,10 +566,6 @@ window.require.define({"core/View": function(exports, require, module) {
      */
     animateOut: function() {}
 
-
-    //--------------------------------------
-    //+ PUBLIC METHODS / GETTERS / SETTERS
-    //--------------------------------------
 
     //--------------------------------------
     //+ EVENT HANDLERS
@@ -672,78 +704,277 @@ window.require.define({"routers/ApplicationRouter": function(exports, require, m
   module.exports = ApplicationRouter;
 }});
 
-window.require.define({"utils/BackboneView": function(exports, require, module) {
+window.require.define({"utils/CreateUtils": function(exports, require, module) {
   /**
-   * View Description
-   * 
-   * @langversion JavaScript
-   * 
-   * @author 
-   * @since  
+   * CreateJS Utilities and helper method-wrappers
+   *
+   * @author Christopher Pappas
+   * @since 12.23.12
    */
 
-  var View     = require('core/View');
-  var template = require('templates/HomeViewTemplate');
+  var AppConfig  = require('config/AppConfig');
+  var GameConfig = require('config/GameConfig');
 
-  BackboneView = View.extend({
+  var Utils = (function() {
+
+  	/**
+  	 * Set the default search key for asset queries
+  	 * @type {String}
+  	 */
+  	var DEFAULT_KEY = 'name';
+
 
   	//--------------------------------------
-  	//+ PUBLIC PROPERTIES / CONSTANTS
+  	//+ PUBLIC INTERFACE
   	//--------------------------------------
 
-    	/*
-     	 * @private
-  	 */
-  	id: 'view',
-  	/*
-     	 * @private
-     	*/
-  	template: template,
+  	return {
 
-  	//--------------------------------------
-    	//+ INHERITED / OVERRIDES
-    	//--------------------------------------
+  		/**
+  		 * Animates a spritesheet once and then returns to old position
+  		 * @param  {c.BitmapAnimation} spritesheet
+  		 * @param  {String} frameLabel the frame label
+  		 */
+  		animateOnce: function( spritesheet, frameLabel ) {
+  			spritesheet.onAnimationEnd = function() { this.gotoAndStop( frameLabel ) };
+  			spritesheet.gotoAndPlay( frameLabel );
+  		},
 
-  	/*
-  	 * @private
-  	 */
-  	initialize: function() {
-  		this.render = _.bind( this.render, this );
-  	},
+  		/**
+  		 * Moves all frame reg-points to the center.
+  		 * USE WITH CAUTION:  Adjusting the internals invalidates pixel-snapping
+  		 * @param  {BitmapAnimation} bitmapAnimation
+  		 */
+  		centerSpriteSheetRegPoint: function( bitmapAnimation ) {
+  			_.each( bitmapAnimation.spriteSheet._frames, function( frame ) {
+  				frame.regX = frame.rect.width * .5
+  				frame.regY = frame.rect.height * .5
+  			});
+  		},
 
-  	/*
-  	 * @private
-  	 */
-  	render: function() {
-  		this.$el.html( this.template( this.getRenderData() ) );
+  		/**
+  		 * Creates a bitmap
+  		 * @param  {*} value the value-pair of the asset
+  		 * @param  {String} key to search under
+  		 * @return {c.Bitmap}  The bitmap
+  		 */
+  		createBitmap: function( value, lookupKey ) {
+  			if( _.isUndefined( lookupKey )) 
+  				lookupKey = DEFAULT_KEY;
 
-  		return this;
-  	},
+  			return new c.Bitmap( CreateUtils.returnAssetImage( value, lookupKey ));
+  		},
 
-  	/*
-  	 * @private
-  	 */
-  	getRenderData: function() {
-  		return {
-  			content: "View Content"
+  		/**
+  		 * Creates a spritesheet and returns c.BitmapAnimation object
+  		 * @param  {*} value the value-pair of the asset
+  		 * @param  {String} key to search under
+  		 * @return {c.BitmapAnimation}  The animated spritesheet
+  		 */
+  		createSpriteSheet: function( value, lookupKey ) {
+  			if( _.isUndefined( lookupKey )) 
+  				lookupKey = DEFAULT_KEY;
+
+  			return new c.BitmapAnimation( new c.SpriteSheet( CreateUtils.returnAssetSpriteSheet( value, lookupKey )));
+  		},
+
+  		/**
+  		 * Creates a hit area for DisplayObjects
+  		 * @param  {DisplayObject} parent
+  		 * @param  {Number} width
+  		 * @param  {Number} height
+  		 */
+  		createHitArea: function( parent, width, height ) {
+  			width = width || 0;
+  			height = height || 0;
+
+  			parent.hitArea = new c.Shape( new c.Graphics().beginFill("#f00").drawRect( 0, 0, width, height ));
+  		},
+
+  		/**
+  		 * Util for dragging display objects to aproximate positioning
+  		 * @param  {Array} objArr An array of display objects to drag
+  		 *
+  		 */
+  		dragObject: function( objArr ) {
+  			_.each( objArr, function( displayObject ) {
+  				
+  				if( displayObject instanceof c.BitmapAnimation ) {
+  					name = displayObject.spriteSheet._images[0].attributes[0].nodeValue;
+  				}
+  				else if( displayObject instanceof c.Bitmap) {
+  					name = displayObject.image.attributes[0].nodeValue;
+  				}
+  				else {
+  					name = '';
+  				}
+
+  				displayObject.onPress = function( event ) {
+  					var offset = { x:displayObject.x - event.stageX, y: displayObject.y - event.stageY };
+
+  					evt.onMouseMove = function(ev) {
+  						var x = ev.stageX + offset.x;
+  						var y = ev.stageY + offset.y;
+
+  						displayObject.x = x;
+  						displayObject.y = y;
+
+  						console.log( x + ', ' + y, ' > ' + name );
+  					}
+  				}
+  			});
+  		},
+
+  		/**
+  		 * Returns a game asset
+  		 * @param  {String} name the asset name
+  		 * @return {Object}	  the asset
+  		 */
+  		returnAsset: function( value, lookupKey ) {
+  			if( _.isUndefined( lookupKey )) 
+  				lookupKey = DEFAULT_KEY;
+
+  			var len = GameConfig.MANIFEST.length;
+  			for( var i = 0; i < len; ++i ) {
+  				var asset = GameConfig.MANIFEST[i];
+  				if( asset.hasOwnProperty( lookupKey )) {
+  					if( asset[lookupKey] === value ) {
+  						return asset;
+  					}
+  				}
+  			};
+  			
+  			return false; 
+  		},
+
+  		/**
+  		 * Returns an image url
+  		 * // TODO: Merge image and spritesheet into one returnAsset method
+  		 * @param  {String} value the asset value-pair
+  		 * @return {String}	  the asset url
+  		 */
+  		returnAssetImage: function( value, lookupKey ) {
+  			var len = GameConfig.MANIFEST.length;
+  			for( var i = 0; i < len; ++i ) {
+  				var asset = GameConfig.MANIFEST[i];
+  				if( asset.hasOwnProperty( lookupKey )) {
+  					if( asset[lookupKey] === value ) {
+  						return asset.src;
+  					}
+  				}
+  			};
+
+  			return false; 
+  		},
+
+  		/**
+  		 * Returns a spritesheet object
+  		 * // TODO: Merge image and spritesheet into one returnAsset method
+  		 * @param  {String} value the asset value
+  		 * @return {Object}	  the asset spritesheet
+  		 */
+  		returnAssetSpriteSheet: function( value, lookupKey ) {
+  			var len = GameConfig.MANIFEST.length;
+  			for( var i = 0; i < len; ++i ) {
+  				var asset = GameConfig.MANIFEST[i];
+  				if( asset.hasOwnProperty( lookupKey )) {
+  					if( asset[lookupKey] === value ) {
+  						return asset.spritesheet;
+  					}
+  				}
+  			};
+
+  			return false; 
   		}
   	}
 
-  	//--------------------------------------
-  	//+ PUBLIC METHODS / GETTERS / SETTERS
-  	//--------------------------------------
+  }).call();
 
-  	//--------------------------------------
-  	//+ EVENT HANDLERS
-  	//--------------------------------------
+  module.exports = CreateUtils;
+}});
 
-  	//--------------------------------------
-  	//+ PRIVATE AND PROTECTED METHODS
-  	//--------------------------------------
+window.require.define({"utils/Utils": function(exports, require, module) {
+  /**
+   * Miscellenious utilities
+   *
+   * @author Christopher Pappas
+   * @since 11.27.12
+   */
 
-  });
+  var AppConfig = require('config/AppConfig');
+  var GameConfig = require('config/GameConfig');
 
-  module.exports = BackboneView;
+  var Utils = {
+
+  	/**
+  	 * Returns a random nunber within two ranges
+  	 * @param {Number} min
+  	 * @param {Number} max
+  	 */
+  	randRange: function( min, max ) {
+  		return Math.floor(Math.random() * (max - min + 1)) + min;
+  	},
+
+  	/**
+  	 * Returns a random hex color
+  	 *
+  	 */
+  	returnRandomHexColor: function() {
+  		var letters = '0123456789ABCDEF'.split('');
+  		var color = '#';
+  		for ( var i = 0; i < 6; i++ ) {
+  			color += letters[ Math.round( Math.random() * 15 ) ];
+  		}
+
+  		return color;
+  	},
+
+  	/**
+  	 * Rotates a 2-Dimensional array to the right
+  	 * @param  {Array} array
+  	 */
+  	rotateArrayRight: function( array ) {
+  		var transformedArray = new Array();
+  		var aLen = array[0].length;
+
+  		for( var i = 0; i < aLen; i++ ) {
+  			transformedArray[i] = new Array();
+
+  			var transformedArrayColumn = -1;
+  			var bLen = array.length - 1;
+  			for ( var j = bLen; j > -1; j-- ) {
+  				transformedArrayColumn++;
+  				transformedArray[i][transformedArrayColumn] = array[j][i]
+  			}
+  		}
+
+  		return transformedArray;
+  	},
+
+  	/**
+  	 * Rotates a 2-Dimensional array to the left
+  	 * @param  {Array} array
+  	 */
+  	rotateArrayLeft: function( array )  {
+  		var transformedArray = new Array();
+  		var aLen = array[0].length;
+  		var row = -1;
+
+  		for( var i = aLen - 1; i > -1; i-- ) {
+  			row++;
+  			transformedArray[row] = new Array();
+
+  			var bLen = array.length;
+  			for ( var j = 0; j < bLen; j++ ) {
+  				transformedArray[row][j] = array[j][i];
+  			}
+  		}
+
+  		return transformedArray;
+  	}
+  }
+
+  module.exports = Utils;
 }});
 
 window.require.define({"views/GameView": function(exports, require, module) {

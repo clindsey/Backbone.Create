@@ -7,6 +7,8 @@
  * @since  
  */
 
+var AppConfig = require('config/AppConfig');
+
 var GameConfig = (function() {
 
 	/**
@@ -25,7 +27,7 @@ var GameConfig = (function() {
 	 * @type {Array}
 	 */
 	var _manifest = [
-
+		{}
 	];
 
 
@@ -38,7 +40,13 @@ var GameConfig = (function() {
 		/**
 		 * @type {Object}
 		 */
-		STAGE_PROPERTIES: _stageProperties
+		STAGE_PROPERTIES: _stageProperties,
+
+		/**
+		 * @type {Array}
+		 */
+		MANIFEST: _manifest
+
 	}
 
 }).call()
