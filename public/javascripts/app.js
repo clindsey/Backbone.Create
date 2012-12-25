@@ -1134,20 +1134,20 @@ window.require.define({"views/GameView": function(exports, require, module) {
   		 * Local method to create and move box on stage
   		 */
   		function createBox() {
-  			var w = Math.random() * 200,
+  			var w = Math.random() * 100,
   					h = w;
 
   			var square = CreateUtils.createRect( Utils.returnRandomHexColor(), w, h, 1 );
   			square.x = 0;
   			square.y = 0;
   			sprite.addChild( square );
-  			
+
   			var mouseSprite = CreateUtils.createSpriteSheet( 'mouse' );
   			sprite.addChild( mouseSprite );
   			mouseSprite.gotoAndPlay('up');
 
   			function moveBox( square ) {
-  				var scale = Math.random() * 2;
+  				var scale = Math.random() * 5;
 
   				TweenMax.to( square, 2, {
   					x: Math.random() * GameConfig.STAGE.stageWidth,
@@ -1167,7 +1167,7 @@ window.require.define({"views/GameView": function(exports, require, module) {
   			moveBox( square );
   		}
 
-  		for( var i = 0; i < 50; ++i )
+  		for( var i = 0; i < 20; ++i )
   			createBox();
   	},
 
