@@ -60,9 +60,13 @@ var GameView = View.extend({
 			square.x = 0;
 			square.y = 0;
 			sprite.addChild( square );
+			
+			var mouseSprite = CreateUtils.createSpriteSheet( 'mouse' );
+			sprite.addChild( mouseSprite );
+			mouseSprite.gotoAndPlay('up');
 
 			function moveBox( square ) {
-				var scale = Math.random() * 1.5;
+				var scale = Math.random() * 2;
 
 				TweenMax.to( square, 2, {
 					x: Math.random() * GameConfig.STAGE.stageWidth,
@@ -78,10 +82,11 @@ var GameView = View.extend({
 				});
 			}
 
+			moveBox( mouseSprite );
 			moveBox( square );
 		}
 
-		for( var i = 0; i < 100; ++i )
+		for( var i = 0; i < 50; ++i )
 			createBox();
 	},
 

@@ -13,7 +13,7 @@ var CreateUtils = (function() {
 	 * Set the default search key for asset queries
 	 * @type {String}
 	 */
-	var DEFAULT_KEY = 'name';
+	var DEFAULT_KEY = 'id';
 
 
 	//--------------------------------------
@@ -68,7 +68,7 @@ var CreateUtils = (function() {
 		 * @return {CreateJS.Shape}
 		 */
 		createRect: function( color, width, height, alpha ) {
-			return new c.Shape( new c.Graphics().beginFill( color ).drawRect( 0, 0, width, height, alpha ));
+			return new c.Shape( new c.Graphics().beginFill( color, alpha ).drawRect( 0, 0, width, height ));
 		},
 
 		/**
@@ -81,7 +81,7 @@ var CreateUtils = (function() {
 		createSpriteSheet: function( value, lookupKey ) {
 			if( _.isUndefined( lookupKey ))
 				lookupKey = DEFAULT_KEY;
-
+			
 			return new c.BitmapAnimation( new c.SpriteSheet( CreateUtils.returnAssetSpriteSheet( value, lookupKey )));
 		},
 

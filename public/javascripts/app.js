@@ -329,13 +329,19 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   	};
 
   	/**
+  	 * Default sprite playback frequency
+  	 * @type {Number}
+  	 */
+  	var spriteFrequency = 4;
+
+  	/**
   	 * Application manifest for external assets and asset descriptors
   	 * @type {Array}
   	 */
   	var _manifest = [
   		{
   			id: 'mouse',
-  			src: AppConfig.IMAGE_PATH + 'spritesheet/sprite-mouse.png',
+  			src: AppConfig.IMAGE_PATH + 'spritesheets/sprite-mouse.png',
   			spritesheet: {
   				"frames": [
   					[218, 2, 23, 33, 0, 0, 0],
@@ -364,16 +370,17 @@ window.require.define({"config/GameConfig": function(exports, require, module) {
   					[2, 2, 23, 33, 0, 0, 0]
   				],
   				"animations": {
-  					"scared-down": {"frames": [21, 22, 23]},
-  					"all": {"frames": [23]},
-  					"down": {"frames": [9, 10, 11]},
-  					"left": {"frames": [3, 4, 5]},
-  					"scared-right": {"frames": [18, 19, 20]},
-  					"scared-left": {"frames": [15, 16, 17]},
-  					"up": {"frames": [0, 1, 2]},
-  					"right": {"frames": [6, 7, 8]},
-  					"scared-up": {"frames": [12, 13, 14]}
-  				}
+  					"scared-down": {"frames": [21, 22, 23], "frequency": spriteFrequency },
+  					"all": {"frames": [23], "frequency": spriteFrequency},
+  					"down": {"frames": [9, 10, 11], "frequency": spriteFrequency},
+  					"left": {"frames": [3, 4, 5], "frequency": spriteFrequency},
+  					"scared-right": {"frames": [18, 19, 20], "frequency": spriteFrequency},
+  					"scared-left": {"frames": [15, 16, 17], "frequency": spriteFrequency},
+  					"up": {"frames": [0, 1, 2], "frequency": spriteFrequency},
+  					"right": {"frames": [6, 7, 8], "frequency": spriteFrequency},
+  					"scared-up": {"frames": [12, 13, 14], "frequency": spriteFrequency}
+  				},
+  				"images": [AppConfig.IMAGE_PATH + 'spritesheets/sprite-mouse.png']
   			}
   		}
   	];
@@ -812,7 +819,7 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   	 * Set the default search key for asset queries
   	 * @type {String}
   	 */
-  	var DEFAULT_KEY = 'name';
+  	var DEFAULT_KEY = 'id';
 
 
   	//--------------------------------------
@@ -867,7 +874,7 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   		 * @return {CreateJS.Shape}
   		 */
   		createRect: function( color, width, height, alpha ) {
-  			return new c.Shape( new c.Graphics().beginFill( color ).drawRect( 0, 0, width, height, alpha ));
+  			return new c.Shape( new c.Graphics().beginFill( color, alpha ).drawRect( 0, 0, width, height ));
   		},
 
   		/**
@@ -880,7 +887,7 @@ window.require.define({"utils/CreateUtils": function(exports, require, module) {
   		createSpriteSheet: function( value, lookupKey ) {
   			if( _.isUndefined( lookupKey ))
   				lookupKey = DEFAULT_KEY;
-
+  			
   			return new c.BitmapAnimation( new c.SpriteSheet( CreateUtils.returnAssetSpriteSheet( value, lookupKey )));
   		},
 
@@ -1134,9 +1141,13 @@ window.require.define({"views/GameView": function(exports, require, module) {
   			square.x = 0;
   			square.y = 0;
   			sprite.addChild( square );
+  			
+  			var mouseSprite = CreateUtils.createSpriteSheet( 'mouse' );
+  			sprite.addChild( mouseSprite );
+  			mouseSprite.gotoAndPlay('up');
 
   			function moveBox( square ) {
-  				var scale = Math.random() * 1.5;
+  				var scale = Math.random() * 2;
 
   				TweenMax.to( square, 2, {
   					x: Math.random() * GameConfig.STAGE.stageWidth,
@@ -1152,10 +1163,11 @@ window.require.define({"views/GameView": function(exports, require, module) {
   				});
   			}
 
+  			moveBox( mouseSprite );
   			moveBox( square );
   		}
 
-  		for( var i = 0; i < 100; ++i )
+  		for( var i = 0; i < 50; ++i )
   			createBox();
   	},
 

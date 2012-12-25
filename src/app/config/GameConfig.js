@@ -23,13 +23,19 @@ var GameConfig = (function() {
 	};
 
 	/**
+	 * Default sprite playback frequency
+	 * @type {Number}
+	 */
+	var spriteFrequency = 4;
+
+	/**
 	 * Application manifest for external assets and asset descriptors
 	 * @type {Array}
 	 */
 	var _manifest = [
 		{
 			id: 'mouse',
-			src: AppConfig.IMAGE_PATH + 'spritesheet/sprite-mouse.png',
+			src: AppConfig.IMAGE_PATH + 'spritesheets/sprite-mouse.png',
 			spritesheet: {
 				"frames": [
 					[218, 2, 23, 33, 0, 0, 0],
@@ -58,16 +64,17 @@ var GameConfig = (function() {
 					[2, 2, 23, 33, 0, 0, 0]
 				],
 				"animations": {
-					"scared-down": {"frames": [21, 22, 23]},
-					"all": {"frames": [23]},
-					"down": {"frames": [9, 10, 11]},
-					"left": {"frames": [3, 4, 5]},
-					"scared-right": {"frames": [18, 19, 20]},
-					"scared-left": {"frames": [15, 16, 17]},
-					"up": {"frames": [0, 1, 2]},
-					"right": {"frames": [6, 7, 8]},
-					"scared-up": {"frames": [12, 13, 14]}
-				}
+					"scared-down": {"frames": [21, 22, 23], "frequency": spriteFrequency },
+					"all": {"frames": [23], "frequency": spriteFrequency},
+					"down": {"frames": [9, 10, 11], "frequency": spriteFrequency},
+					"left": {"frames": [3, 4, 5], "frequency": spriteFrequency},
+					"scared-right": {"frames": [18, 19, 20], "frequency": spriteFrequency},
+					"scared-left": {"frames": [15, 16, 17], "frequency": spriteFrequency},
+					"up": {"frames": [0, 1, 2], "frequency": spriteFrequency},
+					"right": {"frames": [6, 7, 8], "frequency": spriteFrequency},
+					"scared-up": {"frames": [12, 13, 14], "frequency": spriteFrequency}
+				},
+				"images": [AppConfig.IMAGE_PATH + 'spritesheets/sprite-mouse.png']
 			}
 		}
 	];
